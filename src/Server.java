@@ -24,16 +24,11 @@ public class Server {
                             while((inputLine = clientInput.readLine()) != null) {
                                 System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine);
                                 //we want the menu options response here
-                                //if A{}
-                                //if B{}
-                                //if C{}
-                                //if D{}
                                 if (inputLine.equalsIgnoreCase("A")){
                                     //System.out.println("The client wants option A...");
                                     //writer.println(new StringBuilder(inputLine).reverse());
-                                    // this reverses the text the user entered but we dont want that
+                                    // this reverses the text the user entered, but we don't want that
                                     writer.println("Option A - Create New Random Character");
-
                                 } else if (inputLine.equalsIgnoreCase("B")) {
                                     writer.println("Option B - View Character");
                                 } else if (inputLine.equalsIgnoreCase("C")) {
@@ -41,7 +36,6 @@ public class Server {
                                 } else  if (inputLine.equalsIgnoreCase("D")) {
                                     writer.println("Option D - Delete Character");
                                 }
-
 
                             }
                         } catch (IOException e){
