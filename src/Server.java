@@ -21,9 +21,28 @@ public class Server {
                         try(var clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                         var writer = new PrintWriter(clientSocket.getOutputStream(), true);){
                             String inputLine;
-                            while((inputLine = clientInput.readLine()) != null){
+                            while((inputLine = clientInput.readLine()) != null) {
                                 System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine);
-                                writer.println(new StringBuilder(inputLine).reverse());
+                                //we want the menu options response here
+                                //if A{}
+                                //if B{}
+                                //if C{}
+                                //if D{}
+                                if (inputLine.equalsIgnoreCase("A")){
+                                    //System.out.println("The client wants option A...");
+                                    //writer.println(new StringBuilder(inputLine).reverse());
+                                    // this reverses the text the user entered but we dont want that
+                                    writer.println("Option A - Create New Random Character");
+
+                                } else if (inputLine.equalsIgnoreCase("B")) {
+                                    writer.println("Option B - View Character");
+                                } else if (inputLine.equalsIgnoreCase("C")) {
+                                    writer.println("Option C - Update Character");
+                                } else  if (inputLine.equalsIgnoreCase("D")) {
+                                    writer.println("Option D - Delete Character");
+                                }
+
+
                             }
                         } catch (IOException e){
                             throw new RuntimeException(e);
