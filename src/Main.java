@@ -8,7 +8,7 @@ public class Main {
     try(var scanner = new Scanner(System.in)){
         System.out.println("Is this a Server? (y/n)");
         if (scanner.nextLine().equalsIgnoreCase("y")){
-            new Server().startServer(PORT_NUMBER);
+            new Server().start(PORT_NUMBER);
         }else {
             new Client().start(PORT_NUMBER, scanner);
         }

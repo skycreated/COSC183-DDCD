@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    public void startServer(final int portNumber){
+    public void start(final int portNumber){
 
         try(var serverSocket = new ServerSocket(portNumber)){
             System.out.println("Server started. Waiting for clients on port " + portNumber);
