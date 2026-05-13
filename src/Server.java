@@ -7,6 +7,12 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
+    boolean createCharacter = false;
+    boolean updateCharacter = false;
+    boolean deleteCharacter = false;
+    boolean viewCharacter = false;
+
+
     public void start(final int portNumber){
 
         try(var serverSocket = new ServerSocket(portNumber)){
@@ -28,13 +34,31 @@ public class Server {
                                     //System.out.println("The client wants option A...");
                                     //writer.println(new StringBuilder(inputLine).reverse());
                                     // this reverses the text the user entered, but we don't want that
-                                    writer.println("Option A - Create New Random Character");
+                                    createCharacter = true;
+                                    viewCharacter = false;
+                                    updateCharacter = false;
+                                    deleteCharacter = false;
+                                    writer.println("Option A - Create New Random Character. Generating Random Character...");
                                 } else if (inputLine.equalsIgnoreCase("B")) {
-                                    writer.println("Option B - View Character");
+                                    viewCharacter = true;
+                                    createCharacter = false;
+                                    updateCharacter = false;
+                                    deleteCharacter = false;
+                                    writer.println("Option B - View Character. Enter Character ID to view that Character: ");
                                 } else if (inputLine.equalsIgnoreCase("C")) {
-                                    writer.println("Option C - Update Character");
+                                    updateCharacter = true;
+                                    createCharacter = false;
+                                    viewCharacter = false;
+                                    deleteCharacter = false;
+                                    writer.println("Option C - Update Character. Enter Character ID to update: ");
                                 } else  if (inputLine.equalsIgnoreCase("D")) {
-                                    writer.println("Option D - Delete Character");
+                                   deleteCharacter = true;
+                                    createCharacter = false;
+                                    viewCharacter = false;
+                                    updateCharacter = false;
+                                    writer.println("Option D - Delete Character.  Enter Character ID to delete: ");
+                                }else{
+                                    writer.println("That is not a valid option. Try again. Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
                                 }
 
                             }
@@ -47,6 +71,6 @@ public class Server {
         }catch(IOException e){
             throw new RuntimeException(e);
         }
-    }
 
+    }
 }
