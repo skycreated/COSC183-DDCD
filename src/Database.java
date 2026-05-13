@@ -13,6 +13,7 @@ public class Database {
     String password = "letmeinPLEASE";
 
 
+    //GET THE RECORD BY ID
 public void getData(String sql){
     try{
         Connection conn = DriverManager.getConnection(url,username,password);
@@ -42,7 +43,7 @@ public void getData(String sql){
             int wisdom = rs.getInt("Wisdom");
             int charisma = rs.getInt("Charisma");
 
-            System.out.println("Character Details printed here");
+            System.out.println("Character Details printed here:");
             //note this will print every record in the database
             //we need to store in an array and display the character summary to the client for their specific request
         }
