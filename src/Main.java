@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
 
-    final int PORT_NUMBER = 3306;
+    final int PORT_NUMBER = 1234;
 
     try(var scanner = new Scanner(System.in)){
         System.out.println("Is this a Server? (y/n)");
