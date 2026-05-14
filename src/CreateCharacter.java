@@ -26,6 +26,10 @@ public class CreateCharacter {
 
 
     //CREATE ID
+        //add code here
+    public void createCharacterID(){
+
+    }
 
     //CREATE NAME
     public void randomName(){
@@ -33,37 +37,77 @@ public class CreateCharacter {
         String[]lastNames = {"King","Hail","Storm","Price","Brewer","Greene","Whitewood","Bowman","Conway","Graves","Rice","Rose","Wiggins","Ward","Gray","Snow","Moody","Webb","Berry","Bates","Molina","McCoy","Holt","Quinn","Solis","Day","Rowe","Young","May","Armstrong","Grimes","Holmes","Best","Wise","Grant","Bell","Branch","Huffman","Winters"};
         String[]titles = {"the Ruler","the Artist","the Conquerer","the Lonely One","the Brute","the Peasant","the Champion","the Knight","the Listener","the Mighty","the Blessed","the Lover","the Virtuous"};
 
-        Random rand = new Random();
-        String firstName = firstNames[rand.nextInt(firstNames.length)];
-        String lastName = lastNames[rand.nextInt(lastNames.length)];
-        String title = titles[rand.nextInt(titles.length)];
+        Random randName = new Random();
+        String firstName = firstNames[randName.nextInt(firstNames.length)];
+        String lastName = lastNames[randName.nextInt(lastNames.length)];
+        String title = titles[randName.nextInt(titles.length)];
 
         characterName = firstName+" "+lastName +" "+title;
     }
 
     //CREATE CLASS
+    public void randomClass(){
+        String[]classes = {"Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"};
+        Random randClass = new Random();
+
+        characterClass = classes[randClass.nextInt(classes.length)];
+    }
 
     //CREATE RACE
+    public void randomRace(){
+
+    }
 
     //LEVEL IS 1 UNLESS CLIENT UPDATES
+    int maxLevel = 20;
+    //add logic here
 
     //ADD ALIGNMENT
+    public void randomAlignment(){
+        String[]alignments = {"Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"};
+        Random randAlignment = new Random();
+
+        alignment = alignments[randAlignment.nextInt(alignments.length)];
+    }
 
     //ADD BACKGROUND
+    public void randomBackground(){
+
+    }
 
     //CALCULATE AC
+    public void calculateAC(){
+
+    }
 
     //CALCULATE HP
+    public void calculateHP(){
+    }
 
     //ADD SPEED
+    public void movementSpeed(){
+
+    }
 
     //CALCULATE AGE
+    public void randomAge(){
+
+    }
 
     //CALCULATE WEIGHT
+    public void randomWeight(){
+
+    }
 
     //CALCULATE HEIGHT
+    public void randomHeight(){
+
+    }
 
     //CALCULATE MAIN STATISTICS
+    public void calculateMainStats(){
+
+    }
 
 
 
