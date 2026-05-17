@@ -14,8 +14,8 @@ public class CreateCharacter {
     int HP;
     int speed;
     int age;
-    int weight;
-    int height;
+    double weight;
+    double height;
 
     int strength;
     int dexterity;
@@ -32,7 +32,7 @@ public class CreateCharacter {
     }
 
     //CREATE NAME
-    public void randomName(){
+    public String randomName(){
         String[]firstNames = {"Castiel","Thea","Baylor","Alistair","Marley","Joziah","Aitana","Angel","Braylen","Finn","Maximiliano","Jenesis","Korbin","Edgar","Grey","Esther","Leighton","Saylor","Reginald","Alora","Zayden","Nathanael","Silas","Aurelia","Lorelei","William","Rafael","Xander","Amoura","Nicolas","Jasper","Ernesto","Diego","Titus","Nova","Heath","Rudy","Yamileth","Thaddeus","Addison","Cesar","Eliezer","Alaric","Cillian"};
         String[]lastNames = {"King","Hail","Storm","Price","Brewer","Greene","Whitewood","Bowman","Conway","Graves","Rice","Rose","Wiggins","Ward","Gray","Snow","Moody","Webb","Berry","Bates","Molina","McCoy","Holt","Quinn","Solis","Day","Rowe","Young","May","Armstrong","Grimes","Holmes","Best","Wise","Grant","Bell","Branch","Huffman","Winters"};
         String[]titles = {"the Ruler","the Artist","the Conquerer","the Lonely One","the Brute","the Peasant","the Champion","the Knight","the Listener","the Mighty","the Blessed","the Lover","the Virtuous"};
@@ -43,6 +43,7 @@ public class CreateCharacter {
         String title = titles[randName.nextInt(titles.length)];
 
         characterName = firstName+" "+lastName +" "+title;
+        return characterName;
     }
 
     //CREATE CLASS
@@ -54,12 +55,51 @@ public class CreateCharacter {
     }
 
     //CREATE RACE
-    public void randomRace(){
+    public String randomRace(){
 
+        switch (characterClass){
+            case "Barbarian", "Fighter":
+                race = "Half-Orc";
+                break;
+            case "Bard":
+                race = "Human";
+                break;
+            case "Cleric":
+                race = "Dwarf";
+                break;
+            case "Druid":
+                race = "Wood Elf";
+                break;
+            case "Monk":
+                race = "Halfling";
+                break;
+            case "Paladin":
+                race = "Half-Elf";
+                break;
+            case "Ranger":
+                race = "Dragonborn";
+                break;
+            case "Rogue":
+                race = "Gnome";
+                break;
+            case "Sorcerer":
+                race = "Tiefling";
+                break;
+            case "Warlock":
+                race = "Dark Elf";
+                break;
+            case "Wizard":
+                race = "High Elf";
+        }
+        return race;
     }
 
     //LEVEL IS 1 UNLESS CLIENT UPDATES
     int maxLevel = 20;
+    public int getLevel(){
+        level = 1;
+        return level;
+    }
     //add logic here
 
     //ADD ALIGNMENT
@@ -71,8 +111,35 @@ public class CreateCharacter {
     }
 
     //ADD BACKGROUND
-    public void randomBackground(){
+    public String randomBackground(){
 
+        switch (characterClass){
+            case "Barbarian", "Ranger":
+                background = "Outlander";
+                break;
+            case "Bard":
+                background = "Entertainer";
+                break;
+            case "Cleric":
+                background = "Acolyte";
+                break;
+            case "Druid", "Monk", "Sorcerer":
+                background = "Hermit";
+                break;
+            case "Fighter":
+                background = "Soldier";
+                break;
+            case "Paladin":
+                background = "Noble";
+                break;
+            case "Rogue", "Warlock":
+                background = "Charlatan";
+                break;
+            case "Wizard":
+                background = "Sage";
+                break;
+        }
+        return background;
     }
 
     //CALCULATE AC
@@ -85,23 +152,98 @@ public class CreateCharacter {
     }
 
     //ADD SPEED
-    public void movementSpeed(){
+    public int movementSpeed(){
+
+        switch (race){
+            case "Dwarf","Halfling","Gnome":
+                speed = 25;
+                break;
+            case "Wood Elf", "Dark Elf", "High Elf","Human","Dragonborn","Half-Elf","Half-Orc","Tiefling":
+                speed = 30;
+                break;
+        }
+        return speed;
+
 
     }
 
     //CALCULATE AGE
-    public void randomAge(){
-
+    public int randomAge(){
+        switch (race){
+            case "Dwarf":
+                age = 200;
+                break;
+            case "High Elf", "Wood Elf","Dark Elf":
+                age = 550;
+                break;
+            case "Halfling":
+                age = 100;
+                break;
+            case "Human":
+                age = 35;
+                break;
+            case "Dragonborn", "Half-Orc", "Tiefling":
+                age = 25;
+                break;
+            case "Gnome":
+                age = 300;
+                break;
+            case "Half-Elf":
+                age = 125;
+                break;
+        }
+        return age;
     }
 
     //CALCULATE WEIGHT
-    public void randomWeight(){
-
+    public double randomWeight(){
+        switch(race){
+            case "Human", "Tiefling":
+                weight = 180;
+                break;
+            case "Wood Elf", "Dark Elf", "High Elf":
+                weight = 110;
+                break;
+            case "Half-Elf":
+                weight = 145;
+                break;
+            case "Dwarf":
+                weight = 160;
+                break;
+            case "Dragonborn":
+                weight = 325;
+                break;
+            case "Half-Orc":
+                weight = 200;
+                break;
+            case "Halfling", "Gnome":
+                weight = 40;
+                break;
+        }
+        return weight;
     }
 
     //CALCULATE HEIGHT
-    public void randomHeight(){
+    public double getHeight(){
 
+        switch(race){
+            case "Human", "Wood Elf", "Dark Elf", "High Elf", "Half-Elf", "Tiefling":
+                height=5.5;
+                break;
+            case "Dwarf":
+                height = 4;
+                break;
+            case "Half-Orc", "Dragonborn":
+                height = 6.5;
+                break;
+            case "Halfling":
+                height = 3;
+                break;
+            case "Gnome":
+                height = 3.25;
+                break;
+        }
+        return height;
     }
 
     //CALCULATE MAIN STATISTICS
