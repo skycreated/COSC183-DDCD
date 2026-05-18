@@ -25,7 +25,10 @@ public class CreateCharacter {
     int charisma;
 
     int mod = 0;
+    int dexmod = 0;
+    int wismod = 0;
 
+    String armour;
 
     //CREATE ID
         //add code here
@@ -144,8 +147,25 @@ public class CreateCharacter {
     }
 
     //CALCULATE AC
-    public void calculateAC(){
+    public int calculateAC(){
+        switch (characterClass){
+            case "Barbarian","Cleric","Druid":
+                armour = "M";
+                break;
+            case "Bard","Ranger","Rogue":
+                armour = "L";
+                break;
+            case "Fighter","Paladin":
+                armour = "H";
+                break;
+            case "Monk":
+                AC = 10+getDexModifier()+getDexModifier();
+                break;
+            case "Warlock","Wizard","Sorcerer":
+                AC = 10+getDexModifier();
 
+        }
+        return AC;
     }
 
     //CALCULATE HP
@@ -383,7 +403,6 @@ public class CreateCharacter {
     }
 
     public int getConModifier(){
-
         switch (constitution){
             case 1:
                 mod = -5;
@@ -437,6 +456,113 @@ public class CreateCharacter {
         return mod;
     }
 
+    public int getDexModifier(){
+        switch (dexterity){
+            case 1:
+                dexmod = -5;
+                break;
+            case 2,3:
+                dexmod = -4;
+                break;
+            case 4,5:
+                dexmod = -3;
+                break;
+            case 6,7:
+                dexmod = -2;
+                break;
+            case 8,9:
+                dexmod = -1;
+                break;
+            case 10,11:
+                dexmod = 0;
+                break;
+            case 12,13:
+                dexmod = 1;
+                break;
+            case 14,15:
+                dexmod = 2;
+                break;
+            case 16,17:
+                dexmod = 3;
+                break;
+            case 18,19:
+                dexmod = 4;
+                break;
+            case 20,21:
+                dexmod = 5;
+                break;
+            case 22,23:
+                dexmod = 6;
+                break;
+            case 24,25:
+                dexmod = 7;
+                break;
+            case 26,27:
+                dexmod = 8;
+                break;
+            case 28,29:
+                dexmod = 9;
+                break;
+            case 30,31:
+                dexmod = 10;
+                break;
+        }
+        return dexmod;
+    }
+
+    public int getWisModifier(){
+        switch (wisdom){
+            case 1:
+                wismod = -5;
+                break;
+            case 2,3:
+                wismod = -4;
+                break;
+            case 4,5:
+                wismod = -3;
+                break;
+            case 6,7:
+                wismod = -2;
+                break;
+            case 8,9:
+                wismod = -1;
+                break;
+            case 10,11:
+                wismod = 0;
+                break;
+            case 12,13:
+                wismod = 1;
+                break;
+            case 14,15:
+                wismod = 2;
+                break;
+            case 16,17:
+                wismod = 3;
+                break;
+            case 18,19:
+                wismod = 4;
+                break;
+            case 20,21:
+                wismod = 5;
+                break;
+            case 22,23:
+                wismod = 6;
+                break;
+            case 24,25:
+                wismod = 7;
+                break;
+            case 26,27:
+                wismod = 8;
+                break;
+            case 28,29:
+                wismod = 9;
+                break;
+            case 30,31:
+                wismod = 10;
+                break;
+        }
+        return wismod;
+    }
 
 
 }
