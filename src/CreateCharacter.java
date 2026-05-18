@@ -24,6 +24,8 @@ public class CreateCharacter {
     int wisdom;
     int charisma;
 
+    int mod = 0;
+
 
     //CREATE ID
         //add code here
@@ -100,7 +102,6 @@ public class CreateCharacter {
         level = 1;
         return level;
     }
-    //add logic here
 
     //ADD ALIGNMENT
     public void randomAlignment(){
@@ -149,6 +150,38 @@ public class CreateCharacter {
 
     //CALCULATE HP
     public void calculateHP(){
+        if (level == 1){
+            switch (characterClass){
+                case "Barbarian":
+                    HP = 12+getConModifier();
+                    break;
+                case "Bard", "Cleric", "Druid","Monk","Rogue":
+                    HP = 8+getConModifier();
+                    break;
+                case "Fighter","Paladin","Ranger","Warlock":
+                    HP=10+getConModifier();
+                    break;
+                case "Sorcerer","Wizard":
+                    HP=6+getConModifier();
+                    break;
+            }
+        }else {
+            switch (characterClass){
+                case "Barbarian":
+                    HP = (7+getConModifier())*level;
+                    break;
+                case "Bard", "Cleric", "Druid","Monk","Rogue":
+                    HP = (5+getConModifier())*level;
+                    break;
+                case "Fighter","Paladin","Ranger","Warlock":
+                    HP=(6+getConModifier())*level;
+                    break;
+                case "Sorcerer","Wizard":
+                    HP=(4+getConModifier())*level;
+                    break;
+            }
+        }
+
     }
 
     //ADD SPEED
@@ -248,7 +281,160 @@ public class CreateCharacter {
 
     //CALCULATE MAIN STATISTICS
     public void calculateMainStats(){
+        int[]standardArray = {15,14,13,12,10,8};
+        switch (characterClass){
+            case "Barbarian":
+                strength = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                intelligence = standardArray[3];
+                wisdom = standardArray[4];
+                charisma = standardArray[5];
+                break;
+            case "Bard":
+                charisma = standardArray[0];
+                dexterity = standardArray[1];
+                constitution = standardArray[2];
+                intelligence = standardArray[3];
+                wisdom = standardArray[4];
+                strength = standardArray[5];
+                break;
+            case "Cleric":
+                wisdom = standardArray[0];
+                constitution = standardArray[1];
+                strength = standardArray[2];
+                charisma = standardArray[3];
+                dexterity = standardArray[4];
+                intelligence = standardArray[5];
+                break;
+            case "Druid":
+                wisdom = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                strength = standardArray[3];
+                charisma = standardArray[4];
+                intelligence = standardArray[5];
+                break;
+            case "Fighter":
+                strength = standardArray[0];
+                intelligence = standardArray[1];
+                constitution = standardArray[2];
+                dexterity = standardArray[3];
+                wisdom = standardArray[4];
+                charisma = standardArray[5];
+                break;
+            case "Monk":
+                dexterity = standardArray[0];
+                wisdom = standardArray[1];
+                constitution = standardArray[2];
+                strength = standardArray[3];
+                charisma = standardArray[4];
+                intelligence = standardArray[5];
+                break;
+            case "Paladin":
+                strength = standardArray[0];
+                charisma = standardArray[1];
+                constitution = standardArray[2];
+                dexterity = standardArray[3];
+                intelligence = standardArray[4];
+                wisdom = standardArray[5];
+                break;
+            case "Ranger":
+                dexterity = standardArray[0];
+                wisdom = standardArray[1];
+                constitution = standardArray[2];
+                strength = standardArray[3];
+                intelligence = standardArray[4];
+                charisma = standardArray[5];
+                break;
+            case "Rogue":
+                dexterity = standardArray[0];
+                charisma = standardArray[1];
+                intelligence = standardArray[2];
+                constitution = standardArray[3];
+                strength = standardArray[4];
+                wisdom = standardArray[5];
+                break;
+            case "Sorcerer":
+                charisma = standardArray[0];
+                constitution = standardArray[1];
+                wisdom = standardArray[2];
+                intelligence = standardArray[3];
+                dexterity = standardArray[4];
+                strength = standardArray[5];
+                break;
+            case "Warlock":
+                charisma = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                wisdom = standardArray[3];
+                intelligence = standardArray[4];
+                strength = standardArray[5];
+                break;
+            case "Wizard":
+                intelligence = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                charisma = standardArray[3];
+                wisdom = standardArray[4];
+                strength = standardArray[5];
+                break;
+        }
+    }
 
+    public int getConModifier(){
+
+        switch (constitution){
+            case 1:
+                mod = -5;
+                break;
+            case 2,3:
+                mod = -4;
+                break;
+            case 4,5:
+                mod = -3;
+                break;
+            case 6,7:
+                mod = -2;
+                break;
+            case 8,9:
+                mod = -1;
+                break;
+            case 10,11:
+                mod = 0;
+                break;
+            case 12,13:
+                mod = 1;
+                break;
+            case 14,15:
+                mod = 2;
+                break;
+            case 16,17:
+                mod = 3;
+                break;
+            case 18,19:
+                mod = 4;
+                break;
+            case 20,21:
+                mod = 5;
+                break;
+            case 22,23:
+                mod = 6;
+                break;
+            case 24,25:
+                mod = 7;
+                break;
+            case 26,27:
+                mod = 8;
+                break;
+            case 28,29:
+                mod = 9;
+                break;
+            case 30,31:
+                mod = 10;
+                break;
+        }
+        return mod;
     }
 
 
