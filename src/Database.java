@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
 
@@ -56,6 +53,27 @@ public void getData(String sql){
 }
 
 
+public void deleteRecord(int id){
+    try{
+        Connection conn = DriverManager.getConnection(url,username,password);
+        System.out.println("Connected to database..." + conn);
+
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM character WHERE CharacterID = ?");
+        stmt.setInt(1, id);
+
+        int rowsDeleted = stmt.executeUpdate();
+
+        if(rowsDeleted > 0){
+            System.out.println("Character has been deleted");
+        }else {
+            System.out.println("No character record found");
+        }
+        conn.close();
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+}
 
 
 
