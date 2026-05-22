@@ -64,9 +64,9 @@ public void deleteRecord(int id){
         int rowsDeleted = stmt.executeUpdate();
 
         if(rowsDeleted > 0){
-            System.out.println("Character has been deleted");
+            System.out.println("Character has been deleted.");
         }else {
-            System.out.println("No character record found");
+            System.out.println("No character record found. This character does not exist, or it has already been deleted.");
         }
         conn.close();
 
