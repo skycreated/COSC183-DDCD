@@ -43,6 +43,28 @@ public void getData(String sql){
             System.out.println("Character Details printed here:");
             //note this will print every record in the database
             //we need to store in an array and display the character summary to the client for their specific request
+            String[] allValues = {
+                    String.valueOf(id),
+                    name,
+                    className,
+                    race,
+                    String.valueOf(level),
+                    alignment,
+                    background,
+                    String.valueOf(armourClass),
+                    String.valueOf(HP),
+                    String.valueOf(speed),
+                    String.valueOf(age),
+                    String.valueOf(weight),
+                    String.valueOf(height),
+                    String.valueOf(strength),
+                    String.valueOf(dexterity),
+                    String.valueOf(constitution),
+                    String.valueOf(intelligence),
+                    String.valueOf(wisdom),
+                    String.valueOf(charisma)
+            };
+
         }
 
         conn.close();
@@ -72,6 +94,7 @@ public void deleteRecord(int id){
 
     }catch(Exception e){
         e.printStackTrace();
+
     }
 }
 
