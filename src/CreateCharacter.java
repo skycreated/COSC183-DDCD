@@ -565,4 +565,11 @@ public class CreateCharacter {
     }
 
 
+
+    @Override
+    public String toString(){return "The characters name is " + characterName +
+            ", they are a " + alignment + " " + race + " " + characterClass +
+            ". They are " + age +
+            " years old, weigh " + weight +
+            ", and their height is " + height;}
 }
