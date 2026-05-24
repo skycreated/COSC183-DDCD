@@ -34,6 +34,8 @@ public class CreateCharacter {
         //add code here
     public void createCharacterID(){
 
+            characterID = (int)(Math.random() * 10001);
+
     }
 
     //CREATE NAME
