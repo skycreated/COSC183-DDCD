@@ -181,7 +181,7 @@ public class CreateCharacter {
                 break;
             case "Warlock","Wizard","Sorcerer":
                 AC = 10+getDexModifier();
-
+                break;
         }
         return AC;
     }
@@ -581,6 +581,26 @@ public class CreateCharacter {
         }
         return wismod;
     }
+
+    public void generateCharacter() {
+        createCharacterID();
+        randomName();
+        randomClass();
+        randomRace();
+        getLevel();
+        randomAlignment();
+        randomBackground();
+        calculateMainStats();
+        calculateAC();
+        calculateHP();
+        movementSpeed();
+        randomAge();
+        randomWeight();
+        getHeight();
+
+
+    }
+
 
     public String[] characterArray(){
         String[] allValues = {
