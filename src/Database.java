@@ -52,6 +52,40 @@ public void getData(String sql){
     }
 }
 
+    public boolean updateCharacter(int id, String name, int strength, int dexterity,
+                                               int constitution, int intelligence,
+                                               int wisdom, int charisma) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+            String sql = "UPDATE `character table` " +
+                    "SET Name = ?, Strength = ?, Dexterity = ?, Constitution = ?, " +
+                    "Intelligence = ?, Wisdom = ?, Charisma = ? " +
+                    "WHERE CharacterID = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, name);
+            stmt.setInt(2, strength);
+            stmt.setInt(3, dexterity);
+            stmt.setInt(4, constitution);
+            stmt.setInt(5, intelligence);
+            stmt.setInt(6, wisdom);
+            stmt.setInt(7, charisma);
+            stmt.setInt(8, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+            return rowsUpdated > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 public void deleteRecord(int id){
     try{
