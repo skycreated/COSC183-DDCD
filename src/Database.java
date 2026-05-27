@@ -110,9 +110,9 @@ public void getData(String sql){
         }
     }
 public void insertPrepStatement(int id, String name, String className, String race, int level, String alignment, String background, int armourClass, int HP, int speed, int age, int weight, int height, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma){
-    String url = "jdbc:mysql://localhost:3306/character";
-    String username = "root";
-    String password = "letmeinPLEASE";
+    //String url = "jdbc:mysql://localhost:3306/character";
+    //String username = "root";
+    //String password = "letmeinPLEASE";
 
     try {
         Connection conn = DriverManager.getConnection(url, username, password);

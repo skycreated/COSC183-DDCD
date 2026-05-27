@@ -27,13 +27,18 @@ public class Client {
 
                 if (message.equalsIgnoreCase("A")){
                     //System.out.println("Create");
-
                     CreateCharacter cc = new CreateCharacter();
                     cc.generateCharacter();
                     System.out.println(cc);
                     System.out.println(Arrays.toString(cc.characterArray()));
-                }
+                    //db.insertPrepStatement();
+                } else if (message.equalsIgnoreCase("B")){
 
+                }else if (message.equalsIgnoreCase("C")){
+
+                }else if (message.equalsIgnoreCase("D")){
+
+                }
 
 
 

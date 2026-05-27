@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class CreateCharacter {
@@ -67,6 +68,7 @@ public class CreateCharacter {
 
         characterClass = classes[randClass.nextInt(classes.length)];
 
+
         return characterClass;
     }
 
@@ -111,6 +113,7 @@ public class CreateCharacter {
                 race = "High Elf";
                 break;
         }
+
 }
 
          return race;
@@ -169,15 +172,18 @@ public class CreateCharacter {
         switch (characterClass){
             case "Barbarian","Cleric","Druid":
                 armour = "M";
+                AC = 11 + getDexModifier();
                 break;
             case "Bard","Ranger","Rogue":
                 armour = "L";
+                AC = 14 + getDexModifier();
                 break;
             case "Fighter","Paladin":
                 armour = "H";
+                AC = 16 + getDexModifier();
                 break;
             case "Monk":
-                AC = 10+getDexModifier()+getDexModifier();
+                AC = 10+getDexModifier()+getWisModifier();
                 break;
             case "Warlock","Wizard","Sorcerer":
                 AC = 10+getDexModifier();
