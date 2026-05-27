@@ -32,6 +32,7 @@ public class Client {
                     System.out.println(cc);
                     System.out.println(Arrays.toString(cc.characterArray()));
                     //db.insertPrepStatement();
+                    //
                 } else if (message.equalsIgnoreCase("B")){
 
                 }else if (message.equalsIgnoreCase("C")){
