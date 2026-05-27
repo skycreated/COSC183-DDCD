@@ -564,7 +564,31 @@ public class CreateCharacter {
         return wismod;
     }
 
+    public String[] characterArray(){
+        String[] allValues = {
+                String.valueOf(characterID),
+                characterName,
+                characterClass,
+                race,
+                String.valueOf(level),
+                alignment,
+                background,
+                String.valueOf(AC),
+                String.valueOf(HP),
+                String.valueOf(speed),
+                String.valueOf(age),
+                String.valueOf(weight),
+                String.valueOf(height),
+                String.valueOf(strength),
+                String.valueOf(dexterity),
+                String.valueOf(constitution),
+                String.valueOf(intelligence),
+                String.valueOf(wisdom),
+                String.valueOf(charisma)
+        };
+        return allValues;
 
+    }
 
     @Override
     public String toString(){return "The characters name is " + characterName +
