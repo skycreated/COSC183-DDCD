@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,10 +17,7 @@ public class Main {
         }
 
 
-        Database db = new Database();
 
-        //SELECT FROM DATABASE
-        //we need a way to have the client select the ID number to display the record associated with that ID
 
 
     }

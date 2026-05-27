@@ -2,6 +2,9 @@ import java.util.Random;
 
 public class CreateCharacter {
 
+    public CreateCharacter(){
+
+    }
 
     int characterID;
     String characterName;
@@ -30,12 +33,16 @@ public class CreateCharacter {
 
     String armour;
 
+    String[] character = new String[19];
+
     //CREATE ID
         //add code here
-    public void createCharacterID(){
+    public int createCharacterID(){
 
             characterID = (int)(Math.random() * 10001);
 
+            character[0] = String.valueOf(characterID);
+            return characterID;
     }
 
     //CREATE NAME
@@ -54,15 +61,20 @@ public class CreateCharacter {
     }
 
     //CREATE CLASS
-    public void randomClass(){
+    public String randomClass(){
         String[]classes = {"Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"};
         Random randClass = new Random();
 
         characterClass = classes[randClass.nextInt(classes.length)];
+
+        return characterClass;
     }
+
 
     //CREATE RACE
     public String randomRace(){
+        if(race == null){
+            randomClass();
 
         switch (characterClass){
             case "Barbarian", "Fighter":
@@ -97,8 +109,11 @@ public class CreateCharacter {
                 break;
             case "Wizard":
                 race = "High Elf";
+                break;
         }
-        return race;
+}
+
+         return race;
     }
 
     //LEVEL IS 1 UNLESS CLIENT UPDATES
@@ -109,11 +124,12 @@ public class CreateCharacter {
     }
 
     //ADD ALIGNMENT
-    public void randomAlignment(){
+    public String randomAlignment(){
         String[]alignments = {"Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"};
         Random randAlignment = new Random();
 
         alignment = alignments[randAlignment.nextInt(alignments.length)];
+        return alignment;
     }
 
     //ADD BACKGROUND
@@ -171,7 +187,7 @@ public class CreateCharacter {
     }
 
     //CALCULATE HP
-    public void calculateHP(){
+    public int calculateHP(){
         if (level == 1){
             switch (characterClass){
                 case "Barbarian":
@@ -203,7 +219,7 @@ public class CreateCharacter {
                     break;
             }
         }
-
+        return HP;
     }
 
     //ADD SPEED
@@ -565,6 +581,43 @@ public class CreateCharacter {
         }
         return wismod;
     }
+
+    public String[] characterArray(){
+        String[] allValues = {
+                String.valueOf(characterID),
+                characterName,
+                characterClass,
+                race,
+                String.valueOf(level),
+                alignment,
+                background,
+                String.valueOf(AC),
+                String.valueOf(HP),
+                String.valueOf(speed),
+                String.valueOf(age),
+                String.valueOf(weight),
+                String.valueOf(height),
+                String.valueOf(strength),
+                String.valueOf(dexterity),
+                String.valueOf(constitution),
+                String.valueOf(intelligence),
+                String.valueOf(wisdom),
+                String.valueOf(charisma)
+        };
+        return allValues;
+
+    }
+
+    @Override
+    public String toString(){return "Character ID #: "+ createCharacterID() + " This characters name is " + randomName() +
+            ", they are a " + randomAlignment() + " " + race + " " + randomClass() +
+            ". They are " + age +
+            " years old, weigh " + weight +
+            ", and their height is " + height;
+    }
+
+
+
 
 
 }

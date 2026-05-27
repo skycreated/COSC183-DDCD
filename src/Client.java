@@ -21,6 +21,19 @@ public class Client {
                 System.out.println("Response from Server: " + input.readLine()); //tells client the returned thing
                 //we want this to be a confirmation of the client choice, then proceed with that operation
 
+
+                Database db  = new Database();
+
+                if (message.equals("A")){
+                    //System.out.println("Create");
+
+                    CreateCharacter cc = new CreateCharacter();
+                    System.out.println(cc);
+                }
+
+
+
+
             }
 
             socket.close();
