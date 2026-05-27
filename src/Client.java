@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Client {
@@ -24,11 +25,13 @@ public class Client {
 
                 Database db  = new Database();
 
-                if (message.equals("A")){
+                if (message.equalsIgnoreCase("A")){
                     //System.out.println("Create");
 
                     CreateCharacter cc = new CreateCharacter();
+                    cc.generateCharacter();
                     System.out.println(cc);
+                    System.out.println(Arrays.toString(cc.characterArray()));
                 }
 
 
