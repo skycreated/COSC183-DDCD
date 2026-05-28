@@ -159,13 +159,13 @@ public void deleteRecord(int id){
         Connection conn = DriverManager.getConnection(url,username,password);
         System.out.println("Connected to database..." + conn);
 
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM character WHERE CharacterID = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM characters WHERE CharacterID = ?");
         stmt.setInt(1, id);
 
         int rowsDeleted = stmt.executeUpdate();
 
         if(rowsDeleted > 0){
-            System.out.println("Character has been deleted.");
+            System.out.println("Successful Deletion. Character "+id+" has been deleted.");
         }else {
             System.out.println("No character record found. This character does not exist, or it has already been deleted.");
         }

@@ -77,10 +77,16 @@ public class Client {
                         );
 
                 } else if (message.equalsIgnoreCase("B")){
+                    System.out.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: ");
+
 
                 }else if (message.equalsIgnoreCase("C")){
 
                 }else if (message.equalsIgnoreCase("D")){
+                    System.out.println("Enter the ID of the character you would like to DELETE: ");
+                    message = scanner.nextLine();
+                    db.deleteRecord(Integer.parseInt(message.trim()));
+                    //System.out.println(message);
 
                 }
 
