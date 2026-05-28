@@ -109,7 +109,10 @@ public void getData(String sql){
             return false;
         }
     }
-public void insertPrepStatement(int id, String name, String className, String race, int level, String alignment, String background, int armourClass, int HP, int speed, int age, int weight, int height, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma){
+
+
+
+public void insertPrepStatement(int id, String name, String className, String race, int level, String alignment, String background, int armourClass, int HP, int speed, int age, double weight, double height, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma){
     //String url = "jdbc:mysql://localhost:3306/character";
     //String username = "root";
     //String password = "letmeinPLEASE";
@@ -118,7 +121,7 @@ public void insertPrepStatement(int id, String name, String className, String ra
         Connection conn = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to database..." + conn);
 
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO PRODUCTS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO CHARACTERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         stmt.setInt(1, id);
         stmt.setString(2, name);
         stmt.setString(3, className);
@@ -130,8 +133,8 @@ public void insertPrepStatement(int id, String name, String className, String ra
         stmt.setInt(9, HP);
         stmt.setInt(10, speed);
         stmt.setInt(11, age);
-        stmt.setInt(12, weight);
-        stmt.setInt(13, height);
+        stmt.setDouble(12, weight);
+        stmt.setDouble(13, height);
         stmt.setInt(14, strength);
         stmt.setInt(15,dexterity);
         stmt.setInt(16, constitution);
@@ -144,6 +147,7 @@ public void insertPrepStatement(int id, String name, String className, String ra
         System.out.println("Data has been inserted...");
 
         conn.close();
+
     } catch(Exception e){
         e.printStackTrace();
     }
