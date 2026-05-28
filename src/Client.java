@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -31,8 +32,50 @@ public class Client {
                     cc.generateCharacter();
                     System.out.println(cc);
                     System.out.println(Arrays.toString(cc.characterArray()));
-                    //db.insertPrepStatement();
-                    //
+                    String[] insertCharacter = {
+                            cc.characterArray()[0],
+                            cc.characterArray()[1],
+                            cc.characterArray()[2],
+                            cc.characterArray()[3],
+                            cc.characterArray()[4],
+                            cc.characterArray()[5],
+                            cc.characterArray()[6],
+                            cc.characterArray()[7],
+                            cc.characterArray()[8],
+                            cc.characterArray()[9],
+                            cc.characterArray()[10],
+                            cc.characterArray()[11],
+                            cc.characterArray()[12],
+                            cc.characterArray()[13],
+                            cc.characterArray()[14],
+                            cc.characterArray()[15],
+                            cc.characterArray()[16],
+                            cc.characterArray()[17],
+                            cc.characterArray()[18],
+                    };
+
+                    db.insertPrepStatement (
+                                    Integer.parseInt(insertCharacter[0]),
+                                    insertCharacter[1],
+                                    insertCharacter[2],
+                                    insertCharacter[3],
+                                    Integer.parseInt(insertCharacter[4]),
+                                    insertCharacter[5],
+                                    insertCharacter[6],
+                                    Integer.parseInt(insertCharacter[7]),
+                                    Integer.parseInt(insertCharacter[8]),
+                                    Integer.parseInt(insertCharacter[9]),
+                                    Integer.parseInt(insertCharacter[10]),
+                                    Double.parseDouble(insertCharacter[11]),
+                                    Double.parseDouble(insertCharacter[12]),
+                                    Integer.parseInt(insertCharacter[13]),
+                                    Integer.parseInt(insertCharacter[14]),
+                                    Integer.parseInt(insertCharacter[15]),
+                                    Integer.parseInt(insertCharacter[16]),
+                                    Integer.parseInt(insertCharacter[17]),
+                                    Integer.parseInt(insertCharacter[18])
+                        );
+
                 } else if (message.equalsIgnoreCase("B")){
 
                 }else if (message.equalsIgnoreCase("C")){
