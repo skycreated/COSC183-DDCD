@@ -75,8 +75,7 @@ public class CreateCharacter {
 
     //CREATE RACE
     public String randomRace(){
-        if(race == null){
-            randomClass();
+
 
         switch (characterClass){
             case "Barbarian", "Fighter":
@@ -113,8 +112,6 @@ public class CreateCharacter {
                 race = "High Elf";
                 break;
         }
-
-}
 
          return race;
     }
@@ -328,20 +325,20 @@ public class CreateCharacter {
         int[]standardArray = {15,14,13,12,10,8};
         switch (characterClass){
             case "Barbarian":
-                strength = standardArray[0];
-                constitution = standardArray[1];
-                dexterity = standardArray[2];
-                intelligence = standardArray[3];
-                wisdom = standardArray[4];
-                charisma = standardArray[5];
+                strength = 15;
+                constitution = 14;
+                dexterity = 13;
+                intelligence = 12;
+                wisdom = 10;
+                charisma = 8;
                 break;
             case "Bard":
-                charisma = standardArray[0];
-                dexterity = standardArray[1];
-                constitution = standardArray[2];
-                intelligence = standardArray[3];
-                wisdom = standardArray[4];
-                strength = standardArray[5];
+                charisma = 15;
+                dexterity = 14;
+                constitution = 13;
+                intelligence = 12;
+                wisdom = 10;
+                strength = 8;
                 break;
             case "Cleric":
                 wisdom = standardArray[0];
@@ -635,11 +632,19 @@ public class CreateCharacter {
     }
 
     @Override
-    public String toString(){return "Character ID #: "+ createCharacterID() + " This characters name is " + randomName() +
-            ", they are a " + randomAlignment() + " " + race + " " + randomClass() +
-            ". They are " + age +
-            " years old, weigh " + weight +
-            ", and their height is " + height;
+    public String toString(){
+        return "Character ID # "+ createCharacterID()
+                + ": This character's name is " + randomName()
+                + ". They are a " + randomAlignment()
+                + " " + randomRace() + " "
+                + randomClass()
+                + ". They are " + randomAge()
+                + " years old, weigh " + randomWeight()
+                + "pounds, and they are " + getHeight()
+                +" feet tall. This level " + getLevel()
+                + " character has the following main stats: Strength = "+strength+" Dexterity = "+dexterity
+                + " Constitution = "+constitution + " Intelligence = "+intelligence + " Wisdom = "+wisdom
+                + " Charisma = "+charisma;
     }
 
 
