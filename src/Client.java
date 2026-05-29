@@ -17,7 +17,8 @@ public class Client {
 
             String message;
 
-            while(!(message = scanner.nextLine()).isEmpty()){
+            while(!(message = scanner.nextLine()).isEmpty()){ //while there is user input (message is not empty)
+
                 writer.println(message);
                 System.out.println("Response from Server: " + input.readLine()); //tells client the returned thing
                 //we want this to be a confirmation of the client choice, then proceed with that operation
@@ -30,7 +31,7 @@ public class Client {
                     System.out.println(cc); //display the character Summary
                     System.out.println(Arrays.toString(cc.characterArray())); //display the array
 
-                    //INSERT INTO DATABASE
+                    //CALL TO INSERT INTO DATABASE
                     db.insertCharacters (
                                     Integer.parseInt(cc.characterArray()[0]),
                                     cc.characterArray()[1],
@@ -59,7 +60,7 @@ public class Client {
                     if (message.equalsIgnoreCase("all")){
                         db.getAllData("select * from characters");
                     } else {
-
+                        db.viewCharacter(Integer.parseInt(message.trim()));
                     }
 
 
