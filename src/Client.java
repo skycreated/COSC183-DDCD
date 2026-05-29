@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -22,67 +21,52 @@ public class Client {
                 writer.println(message);
                 System.out.println("Response from Server: " + input.readLine()); //tells client the returned thing
                 //we want this to be a confirmation of the client choice, then proceed with that operation
-
-
                 Database db  = new Database();
 
-                if (message.equalsIgnoreCase("A")){
-                    //System.out.println("Create");
-                    CreateCharacter cc = new CreateCharacter();
-                    cc.generateCharacter();
-                    System.out.println(cc);
-                    System.out.println(Arrays.toString(cc.characterArray()));
-                    String[] insertCharacter = {
-                            cc.characterArray()[0],
-                            cc.characterArray()[1],
-                            cc.characterArray()[2],
-                            cc.characterArray()[3],
-                            cc.characterArray()[4],
-                            cc.characterArray()[5],
-                            cc.characterArray()[6],
-                            cc.characterArray()[7],
-                            cc.characterArray()[8],
-                            cc.characterArray()[9],
-                            cc.characterArray()[10],
-                            cc.characterArray()[11],
-                            cc.characterArray()[12],
-                            cc.characterArray()[13],
-                            cc.characterArray()[14],
-                            cc.characterArray()[15],
-                            cc.characterArray()[16],
-                            cc.characterArray()[17],
-                            cc.characterArray()[18],
-                    };
+                if (message.equalsIgnoreCase("A")){ //if they choose to create a random character
 
-                    db.insertPrepStatement (
-                                    Integer.parseInt(insertCharacter[0]),
-                                    insertCharacter[1],
-                                    insertCharacter[2],
-                                    insertCharacter[3],
-                                    Integer.parseInt(insertCharacter[4]),
-                                    insertCharacter[5],
-                                    insertCharacter[6],
-                                    Integer.parseInt(insertCharacter[7]),
-                                    Integer.parseInt(insertCharacter[8]),
-                                    Integer.parseInt(insertCharacter[9]),
-                                    Integer.parseInt(insertCharacter[10]),
-                                    Double.parseDouble(insertCharacter[11]),
-                                    Double.parseDouble(insertCharacter[12]),
-                                    Integer.parseInt(insertCharacter[13]),
-                                    Integer.parseInt(insertCharacter[14]),
-                                    Integer.parseInt(insertCharacter[15]),
-                                    Integer.parseInt(insertCharacter[16]),
-                                    Integer.parseInt(insertCharacter[17]),
-                                    Integer.parseInt(insertCharacter[18])
+                    CreateCharacter cc = new CreateCharacter(); //create character from character creator
+                    cc.generateCharacter(); //generate the character
+                    System.out.println(cc); //display the character Summary
+                    System.out.println(Arrays.toString(cc.characterArray())); //display the array
+
+                    //INSERT INTO DATABASE
+                    db.insertCharacters (
+                                    Integer.parseInt(cc.characterArray()[0]),
+                                    cc.characterArray()[1],
+                                    cc.characterArray()[2],
+                                    cc.characterArray()[3],
+                                    Integer.parseInt(cc.characterArray()[4]),
+                                    cc.characterArray()[5],
+                                    cc.characterArray()[6],
+                                    Integer.parseInt(cc.characterArray()[7]),
+                                    Integer.parseInt(cc.characterArray()[8]),
+                                    Integer.parseInt(cc.characterArray()[9]),
+                                    Integer.parseInt(cc.characterArray()[10]),
+                                    Double.parseDouble(cc.characterArray()[11]),
+                                    Double.parseDouble(cc.characterArray()[12]),
+                                    Integer.parseInt(cc.characterArray()[13]),
+                                    Integer.parseInt(cc.characterArray()[14]),
+                                    Integer.parseInt(cc.characterArray()[15]),
+                                    Integer.parseInt(cc.characterArray()[16]),
+                                    Integer.parseInt(cc.characterArray()[17]),
+                                    Integer.parseInt(cc.characterArray()[18])
                         );
 
-                } else if (message.equalsIgnoreCase("B")){
+                } else if (message.equalsIgnoreCase("B")){ //if they choose to view a character
                     System.out.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: ");
+                    message = scanner.nextLine();
+                    if (message.equalsIgnoreCase("all")){
+                        db.getAllData("select * from characters");
+                    } else {
+
+                    }
 
 
-                }else if (message.equalsIgnoreCase("C")){
+                }else if (message.equalsIgnoreCase("C")){ //if they choose to update an existing character
+                    //db.updateCharacter();
 
-                }else if (message.equalsIgnoreCase("D")){
+                }else if (message.equalsIgnoreCase("D")){ //if they choose to delete a character
                     System.out.println("Enter the ID of the character you would like to DELETE: ");
                     message = scanner.nextLine();
                     db.deleteRecord(Integer.parseInt(message.trim()));
@@ -90,9 +74,7 @@ public class Client {
 
                 }
 
-
-
-            }
+            } //end of while loop
 
             socket.close();
             writer.close();
