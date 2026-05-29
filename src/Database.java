@@ -1,8 +1,7 @@
 import java.sql.*;
-import java.util.List;
+
 
 public class Database {
-
 
     //need URL, username, and password
     String url = "jdbc:mysql://localhost:3306/character";
@@ -11,13 +10,14 @@ public class Database {
     String password = "letmeinPLEASE";
 
 
-    //GET THE RECORD BY ID
-public void getData(String sql){
-    try{
-        Connection conn = DriverManager.getConnection(url,username,password);
-        System.out.println("Connected to database..." + conn);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
+
+    //GET ALL RECORDS IN THE DATABASE
+    public void getAllData(String sql){
+        try{
+            Connection conn = DriverManager.getConnection(url,username,password);
+            System.out.println("Connected to database..." + conn);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
         while(rs.next()){ //while it has NOT reached the end of the record list
             int id = rs.getInt("CharacterID");
@@ -31,8 +31,8 @@ public void getData(String sql){
             int HP = rs.getInt("HP");
             int speed = rs.getInt("Speed");
             int age  = rs.getInt("Age");
-            int weight = rs.getInt("Weight");
-            int height = rs.getInt("Height");
+            double weight = rs.getDouble("Weight");
+            double height = rs.getDouble("Height");
 
             int strength = rs.getInt("Strength");
             int dexterity = rs.getInt("Dexterity");
@@ -41,47 +41,47 @@ public void getData(String sql){
             int wisdom = rs.getInt("Wisdom");
             int charisma = rs.getInt("Charisma");
 
-            System.out.println("Character Details printed here:");
-            //note this will print every record in the database
-            //we need to store in an array and display the character summary to the client for their specific request
-            String[] allValues = {
-                    String.valueOf(id),
-                    name,
-                    className,
-                    race,
-                    String.valueOf(level),
-                    alignment,
-                    background,
-                    String.valueOf(armourClass),
-                    String.valueOf(HP),
-                    String.valueOf(speed),
-                    String.valueOf(age),
-                    String.valueOf(weight),
-                    String.valueOf(height),
-                    String.valueOf(strength),
-                    String.valueOf(dexterity),
-                    String.valueOf(constitution),
-                    String.valueOf(intelligence),
-                    String.valueOf(wisdom),
-                    String.valueOf(charisma)
-            };
-
+            System.out.println("\n------------CHARACTER DETAILS------------");
+            //note this will print EVERY character record in the database
+            System.out.println("ID: "+id
+                    +"\nName: "+ name
+                    +"\nClass: "+className
+                    +"\nRace: "+race
+                    +"\nLevel: "+level
+                    +"\nAlignment: "+alignment
+                    +"\nBackground: "+background
+                    +"\nArmourClass: "+armourClass
+                    +"\nHP: "+HP
+                    +"\nSpeed: "+speed
+                    +"\nAge: "+age
+                    +"\nWeight: "+weight
+                    +"\nHeight: "+height
+                    +"\nStrength: "+strength
+                    +"\nDexterity: "+dexterity
+                    +"\nConstitution: "+constitution
+                    +"\nIntelligence: "+intelligence
+                    +"\nWisdom: "+wisdom
+                    +"\nCharisma: "+charisma
+                    +"\n-----------------------------------------");
         }
 
         conn.close();
 
-    }catch(Exception e){
-        e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
-}
 
+
+
+    //UPDATE CHARACTER BASED ON PROVIDED ID
     public boolean updateCharacter(int id, String name, int strength, int dexterity,
                                                int constitution, int intelligence,
                                                int wisdom, int charisma) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
 
-            String sql = "UPDATE `character table` " +
+            String sql = "UPDATE `characters` " +
                     "SET Name = ?, Strength = ?, Dexterity = ?, Constitution = ?, " +
                     "Intelligence = ?, Wisdom = ?, Charisma = ? " +
                     "WHERE CharacterID = ?";
@@ -111,71 +111,75 @@ public void getData(String sql){
     }
 
 
+    //INSERT A RANDOMLY GENERATED CHARACTER INTO THE DATABASE
+    public void insertCharacters
+        (int id, String name, String className, String race, int level, String alignment,
+        String background, int armourClass, int HP, int speed, int age, double weight,
+        double height, int strength, int dexterity, int constitution, int intelligence,
+        int wisdom, int charisma) {
 
-public void insertPrepStatement(int id, String name, String className, String race, int level, String alignment, String background, int armourClass, int HP, int speed, int age, double weight, double height, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma){
-    //String url = "jdbc:mysql://localhost:3306/character";
-    //String username = "root";
-    //String password = "letmeinPLEASE";
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connected to database..." + conn);
 
-    try {
-        Connection conn = DriverManager.getConnection(url, username, password);
-        System.out.println("Connected to database..." + conn);
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO CHARACTERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            stmt.setInt(1, id);
+            stmt.setString(2, name);
+            stmt.setString(3, className);
+            stmt.setString(4, race);
+            stmt.setInt(5, level);
+            stmt.setString(6, alignment);
+            stmt.setString(7, background);
+            stmt.setInt(8, armourClass);
+            stmt.setInt(9, HP);
+            stmt.setInt(10, speed);
+            stmt.setInt(11, age);
+            stmt.setDouble(12, weight);
+            stmt.setDouble(13, height);
+            stmt.setInt(14, strength);
+            stmt.setInt(15,dexterity);
+            stmt.setInt(16, constitution);
+            stmt.setInt(17, intelligence);
+            stmt.setInt(18, wisdom);
+            stmt.setInt(19, charisma);
 
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO CHARACTERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        stmt.setInt(1, id);
-        stmt.setString(2, name);
-        stmt.setString(3, className);
-        stmt.setString(4, race);
-        stmt.setInt(5, level);
-        stmt.setString(6, alignment);
-        stmt.setString(7, background);
-        stmt.setInt(8, armourClass);
-        stmt.setInt(9, HP);
-        stmt.setInt(10, speed);
-        stmt.setInt(11, age);
-        stmt.setDouble(12, weight);
-        stmt.setDouble(13, height);
-        stmt.setInt(14, strength);
-        stmt.setInt(15,dexterity);
-        stmt.setInt(16, constitution);
-        stmt.setInt(17, intelligence);
-        stmt.setInt(18, wisdom);
-        stmt.setInt(19, charisma);
+            stmt.execute();
 
-        stmt.execute();
+            System.out.println("Data has been inserted...");
 
-        System.out.println("Data has been inserted...");
+            conn.close();
 
-        conn.close();
-
-    } catch(Exception e){
-        e.printStackTrace();
-    }
-}
-
-
-public void deleteRecord(int id){
-    try{
-        Connection conn = DriverManager.getConnection(url,username,password);
-        System.out.println("Connected to database..." + conn);
-
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM characters WHERE CharacterID = ?");
-        stmt.setInt(1, id);
-
-        int rowsDeleted = stmt.executeUpdate();
-
-        if(rowsDeleted > 0){
-            System.out.println("Successful Deletion. Character "+id+" has been deleted.");
-        }else {
-            System.out.println("No character record found. This character does not exist, or it has already been deleted.");
+        } catch(Exception e){
+            e.printStackTrace();
         }
-        conn.close();
-
-    }catch(Exception e){
-        e.printStackTrace();
-
     }
-}
+
+
+
+
+
+    public void deleteRecord(int id){
+        try{
+            Connection conn = DriverManager.getConnection(url,username,password);
+            System.out.println("Connected to database..." + conn);
+
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM characters WHERE CharacterID = ?");
+            stmt.setInt(1, id);
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            if(rowsDeleted > 0){
+                System.out.println("Successful Deletion. Character "+id+" has been deleted.");
+            }else {
+                System.out.println("No character record found. This character does not exist, or it has already been deleted.");
+            }
+
+            conn.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 
