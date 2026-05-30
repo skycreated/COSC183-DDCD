@@ -221,7 +221,7 @@ public class Database {
         }
     }
 
-    //CHANGE NAME OF EXISTING CHARACTER
+    //CHANGE CLASS OF EXISTING CHARACTER
     public void updateClass(int id, String cClass) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -242,7 +242,7 @@ public class Database {
         }
     }
 
-    //CHANGE NAME OF EXISTING CHARACTER
+    //CHANGE RACE OF EXISTING CHARACTER
     public void updateRace(int id, String race) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -263,7 +263,7 @@ public class Database {
         }
     }
 
-    //CHANGE NAME OF EXISTING CHARACTER
+    //CHANGE ALIGNMENT OF EXISTING CHARACTER
     public void updateAlignment(int id, String alignment) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -284,7 +284,7 @@ public class Database {
         }
     }
 
-    //CHANGE NAME OF EXISTING CHARACTER
+    //CHANGE BACKGROUND OF EXISTING CHARACTER
     public void updateBackground(int id, String background) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -305,6 +305,7 @@ public class Database {
         }
     }
 
+    //UPDATE AC OF EXISTING CHARACTER
     public void updateAC(int id, int AC) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -325,7 +326,242 @@ public class Database {
         }
     }
 
+    //UPDATE HP OF EXISTING CHARACTER
+    public void updateHP(int id, int HP) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET HP = ? WHERE CharacterID = ?");
 
+            stmt.setInt(1, HP);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //UPDATE STRENGTH OF EXISTING CHARACTER
+    public void updateStrength(int id, int strength) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Strength = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, strength);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //UPDATE DEXTERITY OF EXISTING CHARACTER
+    public void updateDexterity(int id, int DEX) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Dexterity = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, DEX);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //UPDATE CONSTITUTION OF EXISTING CHARACTER
+    public void updateConstitution(int id, int CON) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Constitution = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, CON);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE INTELLIGENCE OF EXISTING CHARACTER
+    public void updateIntelligence(int id, int Intelligence) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Intelligence = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, Intelligence);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE WISDOM OF EXISTING CHARACTER
+    public void updateWisdom(int id, int WIS) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Wisdom = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, WIS);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE CHARISMA OF EXISTING CHARACTER
+    public void updateCharisma(int id, int charisma) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Charisma = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, charisma);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //UPDATE SPEED OF EXISTING CHARACTER
+    public void updateSpeed(int id, int speed) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Speed = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, speed);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE AGE OF EXISTING CHARACTER
+    public void updateAge(int id, int age) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Age = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, age);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE WEIGHT OF EXISTING CHARACTER
+    public void updateWeight(int id, double weight) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Weight = ? WHERE CharacterID = ?");
+
+            stmt.setDouble(1, weight);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //UPDATE HEIGHT OF EXISTING CHARACTER
+    public void updateHeight(int id, double height) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Height = ? WHERE CharacterID = ?");
+
+            stmt.setDouble(1, height);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 

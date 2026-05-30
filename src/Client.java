@@ -69,7 +69,8 @@ public class Client {
 
 
                 } else if (message.equalsIgnoreCase("C")) { //if they choose to update an existing character
-
+                            int number;
+                            double dnumber;
                             System.out.println("Please enter the ID of the character you wish to UPDATE: ");
                                 message = scanner.nextLine();
                                 db.viewCharacter(Integer.parseInt(message.trim()));//makes sure the ID is an Integer (NOT String)
@@ -90,7 +91,7 @@ public class Client {
                                 System.out.println("Enter a Level: ");
                                 message = scanner.nextLine();
                                     try {
-                                        int number = Integer.parseInt(message); //make sure it is an Integer
+                                        number = Integer.parseInt(message); //make sure it is an Integer
                                         if (number >= 1 && number <= 20) { //level must be between 1-20
                                             System.out.println("This input is valid.");
                                             db.updateLevel(id, number);
@@ -132,9 +133,77 @@ public class Client {
                             } else if (message.equalsIgnoreCase("AC") || message.equalsIgnoreCase("ArmorClass") || message.equalsIgnoreCase("Armor Class")){
                                 System.out.println("What AC would you like to assign to character " + id + "?");
                                 message = scanner.nextLine();
-                                int number = Integer.parseInt(message); //make sure it is an Integer
+                                number = Integer.parseInt(message); //make sure it is an Integer
                                 db.updateAC(id, number);
                                 db.viewCharacter(id);
+                            } else if(message.equalsIgnoreCase("HP") || message.equalsIgnoreCase("Hit Points")){
+                                System.out.println("What HP would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateHP(id, number);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Speed")){
+                                System.out.println("What Speed (in feet) would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateSpeed(id, number);
+                                db.viewCharacter(id);
+                            } else if(message.equalsIgnoreCase("Age")){
+                                System.out.println("What age (in years) would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateAge(id, number);
+                                db.viewCharacter(id);
+                            } else if(message.equalsIgnoreCase("Weight")){
+                                System.out.println("What weight (in pounds) would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                dnumber = Double.parseDouble(message);
+                                db.updateWeight(id, dnumber);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Height")){
+                                System.out.println("What height (in feet) would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                dnumber = Double.parseDouble(message);
+                                db.updateHeight(id, dnumber);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Strength") || message.equalsIgnoreCase("STR")){
+                                System.out.println("What Strength score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateStrength(id, number);
+                                db.viewCharacter(id);
+                            }else if (message.equalsIgnoreCase("Dexterity") || message.equalsIgnoreCase("DEX")){
+                                System.out.println("What Dexterity score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateDexterity(id, number);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Intelligence") || message.equalsIgnoreCase("INT")){
+                                System.out.println("What Intelligence score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateIntelligence(id, number);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Wisdom") || message.equalsIgnoreCase("WIS")){
+                                System.out.println("What Wisdom score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateWisdom(id, number);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Charisma") || message.equalsIgnoreCase("CHA")){
+                                System.out.println("What Charisma score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateCharisma(id, number);
+                                db.viewCharacter(id);
+                            }else if(message.equalsIgnoreCase("Constitution") || message.equalsIgnoreCase("CON")){
+                                System.out.println("What Constitution score would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                number = Integer.parseInt(message);
+                                db.updateConstitution(id, number);
+                                db.viewCharacter(id);
+                            }else{
+                                System.out.println("Invalid input...");
                             }
 
 
