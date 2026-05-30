@@ -10,7 +10,6 @@ public class Database {
     String password = "letmeinPLEASE";
 
 
-
     //GET ALL RECORDS IN THE DATABASE
     public void getAllData(String sql){
         try{
@@ -27,7 +26,7 @@ public class Database {
             int level =  rs.getInt("Level");
             String alignment =  rs.getString("Alignment");
             String background = rs.getString("Background");
-            int armourClass =  rs.getInt("AC");
+            int armorClass =  rs.getInt("AC");
             int HP = rs.getInt("HP");
             int speed = rs.getInt("Speed");
             int age  = rs.getInt("Age");
@@ -50,7 +49,7 @@ public class Database {
                     +"\nLevel: "+level
                     +"\nAlignment: "+alignment
                     +"\nBackground: "+background
-                    +"\nArmourClass: "+armourClass
+                    +"\nAC: "+armorClass
                     +"\nHP: "+HP
                     +"\nSpeed: "+speed
                     +"\nAge: "+age
@@ -92,7 +91,7 @@ public class Database {
                     int level =  rs.getInt("Level");
                     String alignment= rs.getString("Alignment");
                     String background = rs.getString("Background");
-                    int armourClass =  rs.getInt("AC");
+                    int armorClass =  rs.getInt("AC");
                     int HP = rs.getInt("HP");
                     int speed = rs.getInt("Speed");
                     int age = rs.getInt("Age");
@@ -115,7 +114,7 @@ public class Database {
                             +"\nLevel: "+level
                             +"\nAlignment: "+alignment
                             +"\nBackground: "+background
-                            +"\nArmourClass: "+armourClass
+                            +"\nAC: "+armorClass
                             +"\nHP: "+HP
                             +"\nSpeed: "+speed
                             +"\nAge: "+age
@@ -133,9 +132,7 @@ public class Database {
                 }
             }
 
-
             conn.close();
-
 
         } catch (Exception e){
             e.printStackTrace();
@@ -181,6 +178,157 @@ public class Database {
     }
 
 
+    //CHANGE LEVEL OF EXISTING CHARACTER
+    public void updateLevel(int id, int level) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Level = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, level);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //CHANGE NAME OF EXISTING CHARACTER
+    public void updateName(int id, String name) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Name = ? WHERE CharacterID = ?");
+
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //CHANGE NAME OF EXISTING CHARACTER
+    public void updateClass(int id, String cClass) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Class = ? WHERE CharacterID = ?");
+
+            stmt.setString(1, cClass);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //CHANGE NAME OF EXISTING CHARACTER
+    public void updateRace(int id, String race) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Race = ? WHERE CharacterID = ?");
+
+            stmt.setString(1, race);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //CHANGE NAME OF EXISTING CHARACTER
+    public void updateAlignment(int id, String alignment) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Alignment = ? WHERE CharacterID = ?");
+
+            stmt.setString(1, alignment);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //CHANGE NAME OF EXISTING CHARACTER
+    public void updateBackground(int id, String background) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET Background = ? WHERE CharacterID = ?");
+
+            stmt.setString(1, background);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAC(int id, int AC) {
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection Established..." + conn);
+            PreparedStatement stmt =  conn.prepareStatement("UPDATE characters SET AC = ? WHERE CharacterID = ?");
+
+            stmt.setInt(1, AC);
+            stmt.setInt(2, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
     //INSERT A RANDOMLY GENERATED CHARACTER INTO THE DATABASE
     public void insertCharacters
         (int id, String name, String className, String race, int level, String alignment,
@@ -216,7 +364,7 @@ public class Database {
             stmt.execute();
 
             System.out.println("Data has been inserted...");
-
+            System.out.println("Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
             conn.close();
 
         } catch(Exception e){

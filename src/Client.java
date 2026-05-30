@@ -11,7 +11,7 @@ public class Client {
         try{
             var socket = new Socket("localhost",portNumber);
             System.out.println("Socket created, ready to send data to server.");
-            System.out.println("Hello client! Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
+            System.out.println("Hello client! \nSelect A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
             var writer = new PrintWriter(socket.getOutputStream(), true);
             var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -54,18 +54,89 @@ public class Client {
                                     Integer.parseInt(cc.characterArray()[18])
                         );
 
-                } else if (message.equalsIgnoreCase("B")){ //if they choose to view a character
+                } else if (message.equalsIgnoreCase("B")) { //if they choose to view a character
                     System.out.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: ");
                     message = scanner.nextLine();
-                    if (message.equalsIgnoreCase("all")){
-                        db.getAllData("select * from characters");
-                    } else {
-                        db.viewCharacter(Integer.parseInt(message.trim()));
-                    }
+
+                        if (message.equalsIgnoreCase("all")) {
+                            db.getAllData("select * from characters");
+                        } else{
+                            db.viewCharacter(Integer.parseInt(message.trim()));
+                        }
+
+                        System.out.println("Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
 
 
-                }else if (message.equalsIgnoreCase("C")){ //if they choose to update an existing character
-                    //db.updateCharacter();
+
+                } else if (message.equalsIgnoreCase("C")) { //if they choose to update an existing character
+
+                            System.out.println("Please enter the ID of the character you wish to UPDATE: ");
+                                message = scanner.nextLine();
+                                db.viewCharacter(Integer.parseInt(message.trim()));//makes sure the ID is an Integer (NOT String)
+
+                            int id = Integer.parseInt(message.trim()); //id is a number
+
+                            System.out.println("What field would you like to change for character " + message.trim() + "?" +
+                                    "\nPlease note that you cannot change character ID numbers.\nEnter Field: ");
+                            message = scanner.nextLine();
+
+
+                            if (message.equalsIgnoreCase("ID")) { //if they want to change the ID we won't allow that
+                                System.out.println("You cannot change character ID numbers...Try Again");
+
+                            } else if (message.equalsIgnoreCase("level")) { //if they want to change the level
+                                System.out.println("Characters can be level 1-20. What level would you like this character to be?");
+                                System.out.println("Please note that changing the level may adjust the main stats of this character to reflect the level increase/decrease.");
+                                System.out.println("Enter a Level: ");
+                                message = scanner.nextLine();
+                                    try {
+                                        int number = Integer.parseInt(message); //make sure it is an Integer
+                                        if (number >= 1 && number <= 20) { //level must be between 1-20
+                                            System.out.println("This input is valid.");
+                                            db.updateLevel(id, number);
+                                            db.viewCharacter(id);
+                                        } else { //if they enter invalid number
+                                            System.out.println("Invalid input. Please try again.");
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        //this is to handle if that the Integer is actually valid or not
+                                        System.out.println("Please enter a valid Level between 1-20.");
+                                    }
+
+                            } else if (message.equalsIgnoreCase("name")) {
+                                System.out.println("What would you like to name character " + id + "?");
+                                message = scanner.nextLine();
+                                db.updateName(id, message);
+                                db.viewCharacter(id);
+                            } else if (message.equalsIgnoreCase("Class")) {
+                                System.out.println("What Class do you want to assign to character " + id + "?");
+                                System.out.println("Choose ONE of the following options: Barbarian | Bard | Cleric | Druid | Fighter | Monk | Paladin | Ranger | Rogue | Sorcerer | Warlock | Wizard");
+                                message = scanner.nextLine();
+                                db.updateClass(id, message);
+                                db.viewCharacter(id);
+                            } else if (message.equalsIgnoreCase("race")) {
+                                System.out.println("What race do you want to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                db.updateRace(id, message);
+                                db.viewCharacter(id);
+                            } else if(message.equalsIgnoreCase("Alignment")) {
+                                System.out.println("What alignment would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                db.updateAlignment(id, message);
+                                db.viewCharacter(id);
+                            } else if (message.equalsIgnoreCase("Background")) {
+                                System.out.println("What background would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                db.updateBackground(id, message);
+                                db.viewCharacter(id);
+                            } else if (message.equalsIgnoreCase("AC") || message.equalsIgnoreCase("ArmorClass") || message.equalsIgnoreCase("Armor Class")){
+                                System.out.println("What AC would you like to assign to character " + id + "?");
+                                message = scanner.nextLine();
+                                int number = Integer.parseInt(message); //make sure it is an Integer
+                                db.updateAC(id, number);
+                                db.viewCharacter(id);
+                            }
+
 
                 }else if (message.equalsIgnoreCase("D")){ //if they choose to delete a character
                     System.out.println("Enter the ID of the character you would like to DELETE: ");
@@ -85,4 +156,9 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
+
+
+
+
+
 }
