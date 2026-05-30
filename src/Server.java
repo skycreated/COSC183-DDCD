@@ -18,22 +18,20 @@ public class Server {
         try(var serverSocket = new ServerSocket(portNumber)){
             System.out.println("Server started. Waiting for clients on port " + portNumber);
             try(var executor = Executors.newVirtualThreadPerTaskExecutor()){
-                while(true){
+                while(true) {
                     var clientSocket = serverSocket.accept();
-                    executor.submit(()->{
+                    executor.submit(() -> {
                         System.out.println("Client connected!");
                         var clientIP = clientSocket.getInetAddress().getHostAddress();
                         var clientPort = clientSocket.getPort();
-                        try(var clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                        var writer = new PrintWriter(clientSocket.getOutputStream(), true);){
+                        try (var clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                             var writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
                             String inputLine;
-                            while((inputLine = clientInput.readLine()) != null) {
+                            while ((inputLine = clientInput.readLine()) != null) {
                                 System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine);
                                 //we want the menu options response here
-                                if (inputLine.equalsIgnoreCase("A")){
-                                    //System.out.println("The client wants option A...");
-                                    //writer.println(new StringBuilder(inputLine).reverse());
-                                    // this reverses the text the user entered, but we don't want that
+
+                                if (inputLine.equalsIgnoreCase("A")) {
                                     createCharacter = true;
                                     viewCharacter = false;
                                     updateCharacter = false;
@@ -50,19 +48,19 @@ public class Server {
                                     createCharacter = false;
                                     viewCharacter = false;
                                     deleteCharacter = false;
-                                    writer.println("Option C - Update Character. Enter Character ID to update: ");
-                                } else  if (inputLine.equalsIgnoreCase("D")) {
-                                   deleteCharacter = true;
+                                    writer.println("Option C - Update Character.");
+                                } else if (inputLine.equalsIgnoreCase("D")) {
+                                    deleteCharacter = true;
                                     createCharacter = false;
                                     viewCharacter = false;
                                     updateCharacter = false;
-                                    writer.println("Option D - Delete Character.  Enter Character ID to delete: ");
-                                }else{
+                                    writer.println("Option D - Delete Character.");
+                                } else {
                                     writer.println("That is not a valid option. Try again. Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
                                 }
 
                             }
-                        } catch (IOException e){
+                        } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     });
