@@ -37,16 +37,13 @@ public class CreateCharacter {
 
     //CREATE ID
         //add code here
-    public int createCharacterID(){
-
+    public void createCharacterID(){
             characterID = (int)(Math.random() * 10001);
-
             character[0] = String.valueOf(characterID);
-            return characterID;
     }
 
     //CREATE NAME
-    public String randomName(){
+    public void randomName(){
         String[]firstNames = {"Castiel","Thea","Baylor","Alistair","Marley","Joziah","Aitana","Angel","Braylen","Finn","Maximiliano","Jenesis","Korbin","Edgar","Grey","Esther","Leighton","Saylor","Reginald","Alora","Zayden","Nathanael","Silas","Aurelia","Lorelei","William","Rafael","Xander","Amoura","Nicolas","Jasper","Ernesto","Diego","Titus","Nova","Heath","Rudy","Yamileth","Thaddeus","Addison","Cesar","Eliezer","Alaric","Cillian"};
         String[]lastNames = {"King","Hail","Storm","Price","Brewer","Greene","Whitewood","Bowman","Conway","Graves","Rice","Rose","Wiggins","Ward","Gray","Snow","Moody","Webb","Berry","Bates","Molina","McCoy","Holt","Quinn","Solis","Day","Rowe","Young","May","Armstrong","Grimes","Holmes","Best","Wise","Grant","Bell","Branch","Huffman","Winters"};
         String[]titles = {"the Ruler","the Artist","the Conquerer","the Lonely One","the Brute","the Peasant","the Champion","the Knight","the Listener","the Mighty","the Blessed","the Lover","the Virtuous"};
@@ -57,63 +54,213 @@ public class CreateCharacter {
         String title = titles[randName.nextInt(titles.length)];
 
         characterName = firstName+" "+lastName +" "+title;
-        return characterName;
     }
 
     //CREATE CLASS
-    public String randomClass(){
+    public void randomClass(){
         String[]classes = {"Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"};
+        int[]standardArray = {15,14,13,12,10,8};
         Random randClass = new Random();
 
         characterClass = classes[randClass.nextInt(classes.length)];
 
-
-        return characterClass;
-    }
-
-
-    //CREATE RACE
-    public String randomRace(){
-
-
-        switch (characterClass){
-            case "Barbarian", "Fighter":
+        switch (characterClass) {
+            case "Barbarian" -> {
+                strength = 15;
+                constitution = 14;
+                dexterity = 13;
+                intelligence = 12;
+                wisdom = 10;
+                charisma = 8;
+                background = "Outlander";
                 race = "Half-Orc";
-                break;
-            case "Bard":
+                height = 6.5;
+                AC = 11 + getDexModifier();
+                HP = 12 + getConModifier();
+                speed = 30;
+                age = 25;
+                weight = 200;
+            }
+            case "Bard" -> {
+                charisma = 15;
+                dexterity = 14;
+                constitution = 13;
+                intelligence = 12;
+                wisdom = 10;
+                strength = 8;
+                background = "Entertainer";
                 race = "Human";
-                break;
-            case "Cleric":
-                race = "Dwarf";
-                break;
-            case "Druid":
-                race = "Wood Elf";
-                break;
-            case "Monk":
-                race = "Halfling";
-                break;
-            case "Paladin":
+                height = 5.5;
+                AC = 14 + getDexModifier();
+                HP = 8 + getConModifier();
+                speed = 30;
+                age = 35;
+                weight = 180;
+            }
+            case "Fighter" -> {
+                strength = standardArray[0];
+                intelligence = standardArray[1];
+                constitution = standardArray[2];
+                dexterity = standardArray[3];
+                wisdom = standardArray[4];
+                charisma = standardArray[5];
+                background = "Soldier";
+                race = "Half-Orc";
+                height = 6.5;
+                AC = 16 + getDexModifier();
+                HP = 10 + getConModifier();
+                speed = 30;
+                age = 25;
+                weight = 200;
+            }
+            case "Paladin" -> {
+                strength = standardArray[0];
+                charisma = standardArray[1];
+                constitution = standardArray[2];
+                dexterity = standardArray[3];
+                intelligence = standardArray[4];
+                wisdom = standardArray[5];
+                background = "Noble";
                 race = "Half-Elf";
-                break;
-            case "Ranger":
+                height = 5.5;
+                AC = 16 + getDexModifier();
+                HP = 10 + getConModifier();
+                speed = 30;
+                age = 125;
+                weight = 145;
+            }
+            case "Ranger" -> {
+                dexterity = standardArray[0];
+                wisdom = standardArray[1];
+                constitution = standardArray[2];
+                strength = standardArray[3];
+                intelligence = standardArray[4];
+                charisma = standardArray[5];
+                background = "Outlander";
                 race = "Dragonborn";
-                break;
-            case "Rogue":
-                race = "Gnome";
-                break;
-            case "Sorcerer":
-                race = "Tiefling";
-                break;
-            case "Warlock":
-                race = "Dark Elf";
-                break;
-            case "Wizard":
+                height = 6.5;
+                AC = 14 + getDexModifier();
+                HP = 10 + getConModifier();
+                speed = 30;
+                age = 25;
+                weight = 325;
+            }
+            case "Wizard" -> {
+                intelligence = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                charisma = standardArray[3];
+                wisdom = standardArray[4];
+                strength = standardArray[5];
+                background = "Sage";
                 race = "High Elf";
-                break;
+                height = 5.5;
+                AC = 10 + getDexModifier();
+                HP = 6 + getConModifier();
+                speed = 30;
+                age = 550;
+                weight = 110;
+            }
+            case "Sorcerer" -> {
+                charisma = standardArray[0];
+                constitution = standardArray[1];
+                wisdom = standardArray[2];
+                intelligence = standardArray[3];
+                dexterity = standardArray[4];
+                strength = standardArray[5];
+                background = "Hermit";
+                race = "Tiefling";
+                height = 5.5;
+                AC = 10 + getDexModifier();
+                HP = 6 + getConModifier();
+                speed = 30;
+                age = 25;
+                weight = 180;
+            }
+            case "Cleric" -> {
+                wisdom = standardArray[0];
+                constitution = standardArray[1];
+                strength = standardArray[2];
+                charisma = standardArray[3];
+                dexterity = standardArray[4];
+                intelligence = standardArray[5];
+                background = "Acolyte";
+                race = "Dwarf";
+                height = 4;
+                AC = 11 + getDexModifier();
+                HP = 8 + getConModifier();
+                speed = 25;
+                age = 200;
+                weight = 160;
+            }
+            case "Druid" -> {
+                wisdom = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                strength = standardArray[3];
+                charisma = standardArray[4];
+                intelligence = standardArray[5];
+                background = "Hermit";
+                race = "Wood Elf";
+                height = 5.5;
+                AC = 11 + getDexModifier();
+                HP = 8 + getConModifier();
+                speed = 30;
+                age = 550;
+                weight = 110;
+            }
+            case "Warlock" -> {
+                charisma = standardArray[0];
+                constitution = standardArray[1];
+                dexterity = standardArray[2];
+                wisdom = standardArray[3];
+                intelligence = standardArray[4];
+                strength = standardArray[5];
+                background = "Charlatan";
+                race = "Dark Elf";
+                height = 5.5;
+                AC = 10 + getDexModifier();
+                HP = 10 + getConModifier();
+                speed = 30;
+                age = 550;
+                weight = 110;
+            }
+            case "Monk" -> {
+                dexterity = standardArray[0];
+                wisdom = standardArray[1];
+                constitution = standardArray[2];
+                strength = standardArray[3];
+                charisma = standardArray[4];
+                intelligence = standardArray[5];
+                background = "Hermit";
+                race = "Halfling";
+                height = 3;
+                AC = 10 + getDexModifier() + getWisModifier();
+                HP = 8 + getConModifier();
+                speed = 25;
+                age = 100;
+                weight = 40;
+            }
+            case "Rogue" -> {
+                dexterity = standardArray[0];
+                charisma = standardArray[1];
+                intelligence = standardArray[2];
+                constitution = standardArray[3];
+                strength = standardArray[4];
+                wisdom = standardArray[5];
+                background = "Charlatan";
+                race = "Gnome";
+                height = 3.25;
+                AC = 14 + getDexModifier();
+                HP = 8 + getConModifier();
+                speed = 25;
+                age = 300;
+                weight = 40;
+            }
         }
 
-         return race;
     }
+
 
     //LEVEL IS 1 UNLESS CLIENT UPDATES
     int maxLevel = 20;
@@ -123,89 +270,18 @@ public class CreateCharacter {
     }
 
     //ADD ALIGNMENT
-    public String randomAlignment(){
+    public void randomAlignment(){
         String[]alignments = {"Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"};
         Random randAlignment = new Random();
 
         alignment = alignments[randAlignment.nextInt(alignments.length)];
-        return alignment;
     }
 
-    //ADD BACKGROUND
-    public String randomBackground(){
 
-        switch (characterClass){
-            case "Barbarian", "Ranger":
-                background = "Outlander";
-                break;
-            case "Bard":
-                background = "Entertainer";
-                break;
-            case "Cleric":
-                background = "Acolyte";
-                break;
-            case "Druid", "Monk", "Sorcerer":
-                background = "Hermit";
-                break;
-            case "Fighter":
-                background = "Soldier";
-                break;
-            case "Paladin":
-                background = "Noble";
-                break;
-            case "Rogue", "Warlock":
-                background = "Charlatan";
-                break;
-            case "Wizard":
-                background = "Sage";
-                break;
-        }
-        return background;
-    }
-
-    //CALCULATE AC
-    public int calculateAC(){
-        switch (characterClass){
-            case "Barbarian","Cleric","Druid":
-                armour = "M";
-                AC = 11 + getDexModifier();
-                break;
-            case "Bard","Ranger","Rogue":
-                armour = "L";
-                AC = 14 + getDexModifier();
-                break;
-            case "Fighter","Paladin":
-                armour = "H";
-                AC = 16 + getDexModifier();
-                break;
-            case "Monk":
-                AC = 10+getDexModifier()+getWisModifier();
-                break;
-            case "Warlock","Wizard","Sorcerer":
-                AC = 10+getDexModifier();
-                break;
-        }
-        return AC;
-    }
-
+    /*
     //CALCULATE HP
     public int calculateHP(){
-        if (level == 1){
-            switch (characterClass){
-                case "Barbarian":
-                    HP = 12+getConModifier();
-                    break;
-                case "Bard", "Cleric", "Druid","Monk","Rogue":
-                    HP = 8+getConModifier();
-                    break;
-                case "Fighter","Paladin","Ranger","Warlock":
-                    HP=10+getConModifier();
-                    break;
-                case "Sorcerer","Wizard":
-                    HP=6+getConModifier();
-                    break;
-            }
-        }else {
+        if(level >1){
             switch (characterClass){
                 case "Barbarian":
                     HP = (7+getConModifier())*level;
@@ -223,204 +299,7 @@ public class CreateCharacter {
         }
         return HP;
     }
-
-    //ADD SPEED
-    public int movementSpeed(){
-
-        switch (race){
-            case "Dwarf","Halfling","Gnome":
-                speed = 25;
-                break;
-            case "Wood Elf", "Dark Elf", "High Elf","Human","Dragonborn","Half-Elf","Half-Orc","Tiefling":
-                speed = 30;
-                break;
-        }
-        return speed;
-
-
-    }
-
-    //CALCULATE AGE
-    public int randomAge(){
-        switch (race){
-            case "Dwarf":
-                age = 200;
-                break;
-            case "High Elf", "Wood Elf","Dark Elf":
-                age = 550;
-                break;
-            case "Halfling":
-                age = 100;
-                break;
-            case "Human":
-                age = 35;
-                break;
-            case "Dragonborn", "Half-Orc", "Tiefling":
-                age = 25;
-                break;
-            case "Gnome":
-                age = 300;
-                break;
-            case "Half-Elf":
-                age = 125;
-                break;
-        }
-        return age;
-    }
-
-    //CALCULATE WEIGHT
-    public double randomWeight(){
-        switch(race){
-            case "Human", "Tiefling":
-                weight = 180;
-                break;
-            case "Wood Elf", "Dark Elf", "High Elf":
-                weight = 110;
-                break;
-            case "Half-Elf":
-                weight = 145;
-                break;
-            case "Dwarf":
-                weight = 160;
-                break;
-            case "Dragonborn":
-                weight = 325;
-                break;
-            case "Half-Orc":
-                weight = 200;
-                break;
-            case "Halfling", "Gnome":
-                weight = 40;
-                break;
-        }
-        return weight;
-    }
-
-    //CALCULATE HEIGHT
-    public double getHeight(){
-
-        switch(race){
-            case "Human", "Wood Elf", "Dark Elf", "High Elf", "Half-Elf", "Tiefling":
-                height=5.5;
-                break;
-            case "Dwarf":
-                height = 4;
-                break;
-            case "Half-Orc", "Dragonborn":
-                height = 6.5;
-                break;
-            case "Halfling":
-                height = 3;
-                break;
-            case "Gnome":
-                height = 3.25;
-                break;
-        }
-        return height;
-    }
-
-    //CALCULATE MAIN STATISTICS
-    public void calculateMainStats(){
-        int[]standardArray = {15,14,13,12,10,8};
-        switch (characterClass){
-            case "Barbarian":
-                strength = 15;
-                constitution = 14;
-                dexterity = 13;
-                intelligence = 12;
-                wisdom = 10;
-                charisma = 8;
-                break;
-            case "Bard":
-                charisma = 15;
-                dexterity = 14;
-                constitution = 13;
-                intelligence = 12;
-                wisdom = 10;
-                strength = 8;
-                break;
-            case "Cleric":
-                wisdom = standardArray[0];
-                constitution = standardArray[1];
-                strength = standardArray[2];
-                charisma = standardArray[3];
-                dexterity = standardArray[4];
-                intelligence = standardArray[5];
-                break;
-            case "Druid":
-                wisdom = standardArray[0];
-                constitution = standardArray[1];
-                dexterity = standardArray[2];
-                strength = standardArray[3];
-                charisma = standardArray[4];
-                intelligence = standardArray[5];
-                break;
-            case "Fighter":
-                strength = standardArray[0];
-                intelligence = standardArray[1];
-                constitution = standardArray[2];
-                dexterity = standardArray[3];
-                wisdom = standardArray[4];
-                charisma = standardArray[5];
-                break;
-            case "Monk":
-                dexterity = standardArray[0];
-                wisdom = standardArray[1];
-                constitution = standardArray[2];
-                strength = standardArray[3];
-                charisma = standardArray[4];
-                intelligence = standardArray[5];
-                break;
-            case "Paladin":
-                strength = standardArray[0];
-                charisma = standardArray[1];
-                constitution = standardArray[2];
-                dexterity = standardArray[3];
-                intelligence = standardArray[4];
-                wisdom = standardArray[5];
-                break;
-            case "Ranger":
-                dexterity = standardArray[0];
-                wisdom = standardArray[1];
-                constitution = standardArray[2];
-                strength = standardArray[3];
-                intelligence = standardArray[4];
-                charisma = standardArray[5];
-                break;
-            case "Rogue":
-                dexterity = standardArray[0];
-                charisma = standardArray[1];
-                intelligence = standardArray[2];
-                constitution = standardArray[3];
-                strength = standardArray[4];
-                wisdom = standardArray[5];
-                break;
-            case "Sorcerer":
-                charisma = standardArray[0];
-                constitution = standardArray[1];
-                wisdom = standardArray[2];
-                intelligence = standardArray[3];
-                dexterity = standardArray[4];
-                strength = standardArray[5];
-                break;
-            case "Warlock":
-                charisma = standardArray[0];
-                constitution = standardArray[1];
-                dexterity = standardArray[2];
-                wisdom = standardArray[3];
-                intelligence = standardArray[4];
-                strength = standardArray[5];
-                break;
-            case "Wizard":
-                intelligence = standardArray[0];
-                constitution = standardArray[1];
-                dexterity = standardArray[2];
-                charisma = standardArray[3];
-                wisdom = standardArray[4];
-                strength = standardArray[5];
-                break;
-        }
-    }
+     */
 
     public int getConModifier(){
         switch (constitution){
@@ -475,6 +354,8 @@ public class CreateCharacter {
         }
         return mod;
     }
+
+
 
     public int getDexModifier(){
         switch (dexterity){
@@ -588,24 +469,13 @@ public class CreateCharacter {
         createCharacterID();
         randomName();
         randomClass();
-        randomRace();
-        getLevel();
         randomAlignment();
-        randomBackground();
-        calculateMainStats();
-        calculateAC();
-        calculateHP();
-        movementSpeed();
-        randomAge();
-        randomWeight();
-        getHeight();
-
-
+        getLevel();
     }
 
 
     public String[] characterArray(){
-        String[] allValues = {
+        return new String[]{
                 String.valueOf(characterID),
                 characterName,
                 characterClass,
@@ -626,24 +496,27 @@ public class CreateCharacter {
                 String.valueOf(wisdom),
                 String.valueOf(charisma)
         };
-        return allValues;
-
     }
 
     @Override
     public String toString(){
-        return "Character ID # "+ createCharacterID()
-                + ": This character's name is " + randomName()
-                + ". They are a " + randomAlignment()
-                + " " + randomRace() + " "
-                + randomClass()
-                + ". They are " + randomAge()
-                + " years old, weigh " + randomWeight()
-                + "pounds, and they are " + getHeight()
-                +" feet tall. This level " + getLevel()
-                + " character has the following main stats: Strength = "+strength+" Dexterity = "+dexterity
+        return "\n------------CHARACTER SUMMARY------------"
+                +"\nCharacter ID # "+ characterID
+                + ": This character's name is " + characterName
+                + ". \nThey are a " + alignment
+                + " " + race + " "
+                + characterClass
+                + ". \nThey come from the " + background
+                +" background, Have an AC (armor class) of " + AC
+                +", and " + HP
+                +" HP (hit points). \nThey are " + age
+                + " years old, weigh " + weight
+                + " pounds, and they are " + height
+                +" feet tall. \nThis level " + level
+                + " character has the following main stats: \nStrength = "+strength+" Dexterity = "+dexterity
                 + " Constitution = "+constitution + " Intelligence = "+intelligence + " Wisdom = "+wisdom
-                + " Charisma = "+charisma;
+                + " Charisma = "+charisma
+                +"\n-----------------------------------------";
     }
 
 
