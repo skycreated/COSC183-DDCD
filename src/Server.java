@@ -42,7 +42,7 @@ public class Server {
                                     createCharacter = false;
                                     updateCharacter = false;
                                     deleteCharacter = false;
-                                    writer.println("Option B - View Character. Enter Character ID to view that Character: ");
+                                    writer.println("Option B - View Character.");
                                 } else if (inputLine.equalsIgnoreCase("C")) {
                                     updateCharacter = true;
                                     createCharacter = false;
