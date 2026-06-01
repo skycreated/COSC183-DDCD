@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Database {
@@ -9,40 +11,91 @@ public class Database {
     String username = "root";
     String password = "letmeinPLEASE";
 
+    String name = "";
+    int characterID = 0;
+    String className = "";
+    String race = "";
+    int level = 0;
+    String alignment = "";
+    String background = "";
+    int armorClass = 0;
+    int HP = 0;
+    int speed = 0;
+    int age = 0;
+    double weight = 0;
+    double height = 0;
+    int strength = 0;
+    int dexterity = 0;
+    int constitution = 0;
+    int intelligence = 0;
+    int wisdom = 0;
+    int charisma = 0;
+
+    public boolean noRecord = false;
+    String message = "";
 
     //GET ALL RECORDS IN THE DATABASE
-    public void getAllData(String sql){
-        try{
-            Connection conn = DriverManager.getConnection(url,username,password);
+    public String getAllData() {
+
+        ArrayList<String> allCharacters = new ArrayList();
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connected to database..." + conn);
-            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM characters";
+            PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
-        while(rs.next()){ //while it has NOT reached the end of the record list
-            int id = rs.getInt("CharacterID");
-            String name = rs.getString("Name");
-            String className = rs.getString("Class");
-            String race = rs.getString("Race");
-            int level =  rs.getInt("Level");
-            String alignment =  rs.getString("Alignment");
-            String background = rs.getString("Background");
-            int armorClass =  rs.getInt("AC");
-            int HP = rs.getInt("HP");
-            int speed = rs.getInt("Speed");
-            int age  = rs.getInt("Age");
-            double weight = rs.getDouble("Weight");
-            double height = rs.getDouble("Height");
+            while (rs.next()) { //while it has NOT reached the end of the record list
+                characterID = rs.getInt("CharacterID");
+                name = rs.getString("Name");
+                className = rs.getString("Class");
+                race = rs.getString("Race");
+                level = rs.getInt("Level");
+                alignment = rs.getString("Alignment");
+                background = rs.getString("Background");
+                armorClass = rs.getInt("AC");
+                HP = rs.getInt("HP");
+                speed = rs.getInt("Speed");
+                age = rs.getInt("Age");
+                weight = rs.getDouble("Weight");
+                height = rs.getDouble("Height");
 
-            int strength = rs.getInt("Strength");
-            int dexterity = rs.getInt("Dexterity");
-            int constitution = rs.getInt("Constitution");
-            int intelligence = rs.getInt("Intelligence");
-            int wisdom = rs.getInt("Wisdom");
-            int charisma = rs.getInt("Charisma");
+                strength = rs.getInt("Strength");
+                dexterity = rs.getInt("Dexterity");
+                constitution = rs.getInt("Constitution");
+                intelligence = rs.getInt("Intelligence");
+                wisdom = rs.getInt("Wisdom");
+                charisma = rs.getInt("Charisma");
 
+                ArrayList<String> na = new ArrayList();
+                na.add(String.valueOf(characterID));
+                na.add(name);
+                na.add(className);
+                na.add(race);
+                na.add(String.valueOf(level));
+                na.add(alignment);
+                na.add(background);
+                na.add(String.valueOf(armorClass));
+                na.add(String.valueOf(HP));
+                na.add(String.valueOf(speed));
+                na.add(String.valueOf(age));
+                na.add(String.valueOf(weight));
+                na.add(String.valueOf(height));
+                na.add(String.valueOf(strength));
+                na.add(String.valueOf(dexterity));
+                na.add(String.valueOf(constitution));
+                na.add(String.valueOf(intelligence));
+                na.add(String.valueOf(wisdom));
+                na.add(String.valueOf(charisma));
+
+                allCharacters.add(na.toString());
+
+            /*
             System.out.println("\n------------CHARACTER DETAILS------------");
             //note this will print EVERY character record in the database
-            System.out.println("ID: "+id
+            System.out.println("ID: "+characterID
                     +"\nName: "+ name
                     +"\nClass: "+className
                     +"\nRace: "+race
@@ -62,18 +115,54 @@ public class Database {
                     +"\nWisdom: "+wisdom
                     +"\nCharisma: "+charisma
                     +"\n-----------------------------------------");
-        }
 
-        conn.close();
+             */
 
-        }catch(Exception e){
+
+            }
+
+            conn.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+                /*"------------CHARACTER DETAILS------------\nID: "+characterID
+                +"\nName: "+ name
+                +"\nClass: "+className
+                +"\nRace: "+race
+                +"\nLevel: "+level
+                +"\nAlignment: "+alignment
+                +"\nBackground: "+background
+                +"\nAC: "+armorClass
+                +"\nHP: "+HP
+                +"\nSpeed: "+speed
+                +"\nAge: "+age
+                +"\nWeight: "+weight
+                +"\nHeight: "+height
+                +"\nStrength: "+strength
+                +"\nDexterity: "+dexterity
+                +"\nConstitution: "+constitution
+                +"\nIntelligence: "+intelligence
+                +"\nWisdom: "+wisdom
+                +"\nCharisma: "+charisma
+                +"\n-----------------------------------------";
+
+                 */
+        System.out.println("Retrieving all characters from database...");
+        for  (int i = 0; i < allCharacters.size(); i++) {
+            //System.out.println(allCharacters.get(i));
+            sb.append(allCharacters.get(i));
+            sb.append('\n');
+        }
+        System.out.println("All available characters have been retrieved and sent to client");
+        return sb.toString();
     }
 
 
     //TO VIEW A SPECIFIC CHARACTER BY PROVIDED ID
-    public void viewCharacter(int id){
+    public String viewCharacter(int id){
+
         try{
             Connection conn =  DriverManager.getConnection(url,username,password);
             System.out.println("Connected to database..." + conn);
@@ -84,51 +173,31 @@ public class Database {
 
             try(ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
-                    int characterID = rs.getInt("CharacterID");
-                    String name = rs.getString("Name");
-                    String className = rs.getString("Class");
-                    String race = rs.getString("Race");
-                    int level =  rs.getInt("Level");
-                    String alignment= rs.getString("Alignment");
-                    String background = rs.getString("Background");
-                    int armorClass =  rs.getInt("AC");
-                    int HP = rs.getInt("HP");
-                    int speed = rs.getInt("Speed");
-                    int age = rs.getInt("Age");
-                    double weight = rs.getDouble("Weight");
-                    double height = rs.getDouble("Height");
-                    int strength = rs.getInt("Strength");
-                    int dexterity = rs.getInt("Dexterity");
-                    int constitution = rs.getInt("Constitution");
-                    int intelligence = rs.getInt("Intelligence");
-                    int wisdom = rs.getInt("Wisdom");
-                    int charisma = rs.getInt("Charisma");
+                    noRecord = false;
+                    characterID = rs.getInt("CharacterID");
+                    name = rs.getString("Name");
+                    className = rs.getString("Class");
+                    race = rs.getString("Race");
+                    level =  rs.getInt("Level");
+                    alignment= rs.getString("Alignment");
+                    background = rs.getString("Background");
+                    armorClass =  rs.getInt("AC");
+                    HP = rs.getInt("HP");
+                    speed = rs.getInt("Speed");
+                    age = rs.getInt("Age");
+                    weight = rs.getDouble("Weight");
+                    height = rs.getDouble("Height");
+                    strength = rs.getInt("Strength");
+                    dexterity = rs.getInt("Dexterity");
+                    constitution = rs.getInt("Constitution");
+                    intelligence = rs.getInt("Intelligence");
+                    wisdom = rs.getInt("Wisdom");
+                    charisma = rs.getInt("Charisma");
 
 
-                    System.out.println("\n------------CHARACTER DETAILS------------");
-                    //note this will print EVERY character record in the database
-                    System.out.println("ID: "+characterID
-                            +"\nName: "+ name
-                            +"\nClass: "+className
-                            +"\nRace: "+race
-                            +"\nLevel: "+level
-                            +"\nAlignment: "+alignment
-                            +"\nBackground: "+background
-                            +"\nAC: "+armorClass
-                            +"\nHP: "+HP
-                            +"\nSpeed: "+speed
-                            +"\nAge: "+age
-                            +"\nWeight: "+weight
-                            +"\nHeight: "+height
-                            +"\nStrength: "+strength
-                            +"\nDexterity: "+dexterity
-                            +"\nConstitution: "+constitution
-                            +"\nIntelligence: "+intelligence
-                            +"\nWisdom: "+wisdom
-                            +"\nCharisma: "+charisma
-                            +"\n-----------------------------------------");
                 }else{
                     System.out.println("There is no record of a character with ID # "+id+".");
+                    noRecord = true;
                 }
             }
 
@@ -137,8 +206,42 @@ public class Database {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        return summary();
     }
 
+
+
+    public String summary(){
+        if (noRecord) {
+            message = "There are no records in the database. Sorry.";
+        }else {
+           message = "Please note if the character record shows 0, then there is no record present in the database (which means that record does not exist)" +
+                    "\nPrinting Record...."+
+                    "\n------------CHARACTER DETAILS------------" +
+                    "\nID: "+characterID
+                    +"\nName: "+ name
+                    +"\nClass: "+className
+                    +"\nRace: "+race
+                    +"\nLevel: "+level
+                    +"\nAlignment: "+alignment
+                    +"\nBackground: "+background
+                    +"\nAC: "+armorClass
+                    +"\nHP: "+HP
+                    +"\nSpeed: "+speed
+                    +"\nAge: "+age
+                    +"\nWeight: "+weight
+                    +"\nHeight: "+height
+                    +"\nStrength: "+strength
+                    +"\nDexterity: "+dexterity
+                    +"\nConstitution: "+constitution
+                    +"\nIntelligence: "+intelligence
+                    +"\nWisdom: "+wisdom
+                    +"\nCharisma: "+charisma
+                    +"\n-----------------------------------------";
+        }
+        return message;
+    }
 
 
     //UPDATE CHARACTER BASED ON PROVIDED ID
@@ -179,7 +282,7 @@ public class Database {
 
 
     //CHANGE LEVEL OF EXISTING CHARACTER
-    public void updateLevel(int id, int level) {
+    public String updateLevel(int id, int level) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -197,6 +300,7 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Level has been updated for character " + id;
     }
 
 
@@ -222,7 +326,7 @@ public class Database {
     }
 
     //CHANGE CLASS OF EXISTING CHARACTER
-    public void updateClass(int id, String cClass) {
+    public String updateClass(int id, String cClass) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -240,10 +344,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Class has been updated for character "+id;
     }
 
     //CHANGE RACE OF EXISTING CHARACTER
-    public void updateRace(int id, String race) {
+    public String updateRace(int id, String race) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -261,6 +366,7 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Race has been updated for character "+id;
     }
 
     //CHANGE ALIGNMENT OF EXISTING CHARACTER
@@ -600,7 +706,6 @@ public class Database {
             stmt.execute();
 
             System.out.println("Data has been inserted...");
-            System.out.println("Select A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
             conn.close();
 
         } catch(Exception e){

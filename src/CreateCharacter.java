@@ -500,23 +500,24 @@ public class CreateCharacter {
 
     @Override
     public String toString(){
-        return "\n------------CHARACTER SUMMARY------------"
-                +"\nCharacter ID # "+ characterID
-                + ": This character's name is " + characterName
-                + ". \nThey are a " + alignment
+        String nl = System.lineSeparator();
+        return "------------CHARACTER SUMMARY------------"
+                +nl+"Character ID # "+ characterID
+                + ": "+nl+"This character's name is " + characterName
+                + ". "+nl+"They are a " + alignment
                 + " " + race + " "
                 + characterClass
-                + ". \nThey come from the " + background
+                + ". "+nl+"They come from the " + background
                 +" background, Have an AC (armor class) of " + AC
                 +", and " + HP
-                +" HP (hit points). \nThey are " + age
+                +" HP (hit points). "+nl+"They are " + age
                 + " years old, weigh " + weight
                 + " pounds, and they are " + height
-                +" feet tall. \nThis level " + level
-                + " character has the following main stats: \nStrength = "+strength+" Dexterity = "+dexterity
+                +" feet tall. "+nl+"This level " + level
+                + " character has the following main stats: "+nl+"Strength = "+strength+" Dexterity = "+dexterity
                 + " Constitution = "+constitution + " Intelligence = "+intelligence + " Wisdom = "+wisdom
                 + " Charisma = "+charisma
-                +"\n-----------------------------------------";
+                +nl+"-----------------------------------------";
     }
 
 
