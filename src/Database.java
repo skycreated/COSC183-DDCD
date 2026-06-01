@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Database {
@@ -214,7 +213,7 @@ public class Database {
 
     public String summary(){
         if (noRecord) {
-            message = "There are no records in the database. Sorry.";
+            message = "There are no records with that ID in the database. Sorry.";
         }else {
            message = "Please note if the character record shows 0, then there is no record present in the database (which means that record does not exist)" +
                     "\nPrinting Record...."+
@@ -305,7 +304,7 @@ public class Database {
 
 
     //CHANGE NAME OF EXISTING CHARACTER
-    public void updateName(int id, String name) {
+    public String updateName(int id, String name) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -323,6 +322,7 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Name has been updated for character " + id;
     }
 
     //CHANGE CLASS OF EXISTING CHARACTER
@@ -370,7 +370,7 @@ public class Database {
     }
 
     //CHANGE ALIGNMENT OF EXISTING CHARACTER
-    public void updateAlignment(int id, String alignment) {
+    public String updateAlignment(int id, String alignment) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -388,10 +388,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Alignment has been updated for character "+id;
     }
 
     //CHANGE BACKGROUND OF EXISTING CHARACTER
-    public void updateBackground(int id, String background) {
+    public String updateBackground(int id, String background) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -409,10 +410,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Background has been updated for character "+id;
     }
 
     //UPDATE AC OF EXISTING CHARACTER
-    public void updateAC(int id, int AC) {
+    public String updateAC(int id, int AC) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -430,10 +432,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "AC has been updated for character "+id;
     }
 
     //UPDATE HP OF EXISTING CHARACTER
-    public void updateHP(int id, int HP) {
+    public String updateHP(int id, int HP) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -451,10 +454,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "HP has been updated for character "+id;
     }
 
     //UPDATE STRENGTH OF EXISTING CHARACTER
-    public void updateStrength(int id, int strength) {
+    public String updateStrength(int id, int strength) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -472,10 +476,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Strength has been updated for character "+id;
     }
 
     //UPDATE DEXTERITY OF EXISTING CHARACTER
-    public void updateDexterity(int id, int DEX) {
+    public String updateDexterity(int id, int DEX) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -493,10 +498,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Dexterity has been updated for character "+id;
     }
 
     //UPDATE CONSTITUTION OF EXISTING CHARACTER
-    public void updateConstitution(int id, int CON) {
+    public String updateConstitution(int id, int CON) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -514,11 +520,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Constitution has been updated for character "+id;
     }
 
 
     //UPDATE INTELLIGENCE OF EXISTING CHARACTER
-    public void updateIntelligence(int id, int Intelligence) {
+    public String updateIntelligence(int id, int Intelligence) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -536,11 +543,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Intelligence has been updated for character "+id;
     }
 
 
     //UPDATE WISDOM OF EXISTING CHARACTER
-    public void updateWisdom(int id, int WIS) {
+    public String updateWisdom(int id, int WIS) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -558,11 +566,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Wisdom has been updated for character "+id;
     }
 
 
     //UPDATE CHARISMA OF EXISTING CHARACTER
-    public void updateCharisma(int id, int charisma) {
+    public String updateCharisma(int id, int charisma) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -580,10 +589,11 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Charisma has been updated for character "+id;
     }
 
     //UPDATE SPEED OF EXISTING CHARACTER
-    public void updateSpeed(int id, int speed) {
+    public String updateSpeed(int id, int speed) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -601,11 +611,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Speed has been updated for character "+id;
     }
 
 
     //UPDATE AGE OF EXISTING CHARACTER
-    public void updateAge(int id, int age) {
+    public String updateAge(int id, int age) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -623,11 +634,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Age has been updated for character "+id;
     }
 
 
     //UPDATE WEIGHT OF EXISTING CHARACTER
-    public void updateWeight(int id, double weight) {
+    public String updateWeight(int id, double weight) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -645,11 +657,12 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Weight has been updated for character "+id;
     }
 
 
     //UPDATE HEIGHT OF EXISTING CHARACTER
-    public void updateHeight(int id, double height) {
+    public String updateHeight(int id, double height) {
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established..." + conn);
@@ -667,6 +680,7 @@ public class Database {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return "Height has been updated for character "+id;
     }
 
 
@@ -715,7 +729,7 @@ public class Database {
 
 
     //DELETE A CHARACTER BY PROVIDED ID
-    public void deleteRecord(int id){
+    public String deleteRecord(int id){
         try{
             Connection conn = DriverManager.getConnection(url,username,password);
             System.out.println("Connected to database..." + conn);
@@ -727,8 +741,10 @@ public class Database {
 
             if(rowsDeleted > 0){
                 System.out.println("Successful Deletion. Character "+id+" has been deleted.");
+                characterID = id;
             }else {
                 System.out.println("No character record found. This character does not exist, or it has already been deleted.");
+                noRecord = true;
             }
 
             conn.close();
@@ -736,9 +752,18 @@ public class Database {
         }catch(Exception e){
             e.printStackTrace();
         }
+        return deletionSummary();
     }
 
 
+    public String deletionSummary(){
+        if(noRecord){
+           message = "There was no record found with that ID in the database. Sorry.";
+        }else{
+           message = "Character "+characterID+" has been successfully deleted.";
+        }
+        return message;
+    }
 
 
 }
