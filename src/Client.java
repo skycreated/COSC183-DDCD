@@ -17,7 +17,7 @@ public class Client {
             //in other cases where server is on different system we would need that IP address but for this we use localhost
 
             System.out.println("Socket created, ready to send data to server.");
-            System.out.println("Hello client! \nSelect A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character");
+            System.out.println("Hello client! \nSelect A for Create New Random Character | Select B for View Character | Select C for Update Character | Select D for Delete Character | EXIT = Exit Program");
             var writer = new PrintWriter(socket.getOutputStream(), true);
             //we want auto flush to be true so that when we call print line it ensures that the data is immediately visible
             //with network protocols you will need the other side to see the output immediately
@@ -30,6 +30,8 @@ public class Client {
 
 
                 if (message.equalsIgnoreCase("EXIT")){
+                    System.out.println("Executing EXIT request... Bye!");
+                    writer.println("EXIT");
                     System.exit(0);
                 }else{
 

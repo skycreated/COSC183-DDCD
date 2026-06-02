@@ -707,7 +707,7 @@ public class Database {
         if (noRecord) { //if there was no record with that ID say this message
             message = "There are no records with that ID in the database. Sorry.";
         }else { //otherwise list the character details
-            message = "Please note if the character record shows 0, then there is no record present in the database (which means that record does not exist)" +
+            message = "Please note if the character record shows 0, then there is no record present in the database (which means that record does not exist)." +
                     "\nPrinting Record...."+
                     "\n------------CHARACTER DETAILS------------" +
                     "\nID: "+characterID
