@@ -6,6 +6,7 @@ public class CreateCharacter {
 
     }
 
+    //FIELD VARIABLES
     int characterID;
     String characterName;
     String characterClass;
@@ -27,22 +28,22 @@ public class CreateCharacter {
     int wisdom;
     int charisma;
 
+    //MODIFICATION VARIABLES
     int mod = 0;
     int dexmod = 0;
     int wismod = 0;
 
-    String armour;
-
     String[] character = new String[19];
 
-    //CREATE ID
-        //add code here
+
+
+//CREATE ID
     public void createCharacterID(){
             characterID = (int)(Math.random() * 10001);
             character[0] = String.valueOf(characterID);
     }
 
-    //CREATE NAME
+//CREATE NAME
     public void randomName(){
         String[]firstNames = {"Castiel","Thea","Baylor","Alistair","Marley","Joziah","Aitana","Angel","Braylen","Finn","Maximiliano","Jenesis","Korbin","Edgar","Grey","Esther","Leighton","Saylor","Reginald","Alora","Zayden","Nathanael","Silas","Aurelia","Lorelei","William","Rafael","Xander","Amoura","Nicolas","Jasper","Ernesto","Diego","Titus","Nova","Heath","Rudy","Yamileth","Thaddeus","Addison","Cesar","Eliezer","Alaric","Cillian"};
         String[]lastNames = {"King","Hail","Storm","Price","Brewer","Greene","Whitewood","Bowman","Conway","Graves","Rice","Rose","Wiggins","Ward","Gray","Snow","Moody","Webb","Berry","Bates","Molina","McCoy","Holt","Quinn","Solis","Day","Rowe","Young","May","Armstrong","Grimes","Holmes","Best","Wise","Grant","Bell","Branch","Huffman","Winters"};
@@ -56,7 +57,7 @@ public class CreateCharacter {
         characterName = firstName+" "+lastName +" "+title;
     }
 
-    //CREATE CLASS
+//CREATE CLASS
     public void randomClass(){
         String[]classes = {"Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"};
         int[]standardArray = {15,14,13,12,10,8};
@@ -258,18 +259,16 @@ public class CreateCharacter {
                 weight = 40;
             }
         }
-
     }
 
 
-    //LEVEL IS 1 UNLESS CLIENT UPDATES
-    int maxLevel = 20;
+//LEVEL IS 1
     public int getLevel(){
         level = 1;
         return level;
     }
 
-    //ADD ALIGNMENT
+//ADD ALIGNMENT
     public void randomAlignment(){
         String[]alignments = {"Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"};
         Random randAlignment = new Random();
@@ -277,30 +276,7 @@ public class CreateCharacter {
         alignment = alignments[randAlignment.nextInt(alignments.length)];
     }
 
-
-    /*
-    //CALCULATE HP
-    public int calculateHP(){
-        if(level >1){
-            switch (characterClass){
-                case "Barbarian":
-                    HP = (7+getConModifier())*level;
-                    break;
-                case "Bard", "Cleric", "Druid","Monk","Rogue":
-                    HP = (5+getConModifier())*level;
-                    break;
-                case "Fighter","Paladin","Ranger","Warlock":
-                    HP=(6+getConModifier())*level;
-                    break;
-                case "Sorcerer","Wizard":
-                    HP=(4+getConModifier())*level;
-                    break;
-            }
-        }
-        return HP;
-    }
-     */
-
+//CALCULATE THE MODIFIER FOR CONSTITUTION SCORE
     public int getConModifier(){
         switch (constitution){
             case 1:
@@ -355,8 +331,7 @@ public class CreateCharacter {
         return mod;
     }
 
-
-
+//CALCULATE THE MODIFIER FOR DEXTERITY SCORE
     public int getDexModifier(){
         switch (dexterity){
             case 1:
@@ -411,6 +386,7 @@ public class CreateCharacter {
         return dexmod;
     }
 
+//CALCULATE THE MODIFIER FOR WISDOM SCORE
     public int getWisModifier(){
         switch (wisdom){
             case 1:
@@ -465,6 +441,7 @@ public class CreateCharacter {
         return wismod;
     }
 
+//GENERATE THE CHARACTER
     public void generateCharacter() {
         createCharacterID();
         randomName();
@@ -473,7 +450,7 @@ public class CreateCharacter {
         getLevel();
     }
 
-
+//ARRAY FOR THE CHARACTER
     public String[] characterArray(){
         return new String[]{
                 String.valueOf(characterID),
@@ -498,9 +475,10 @@ public class CreateCharacter {
         };
     }
 
+//TO STRING METHOD
     @Override
     public String toString(){
-        String nl = System.lineSeparator();
+        String nl = System.lineSeparator(); //Need this as line separator as print writer is particular about line breaks
         return "------------CHARACTER SUMMARY------------"
                 +nl+"Character ID # "+ characterID
                 + ": "+nl+"This character's name is " + characterName
@@ -520,8 +498,4 @@ public class CreateCharacter {
                 +nl+"-----------------------------------------";
     }
 
-
-
-
-
-}
+} //end of create character class
