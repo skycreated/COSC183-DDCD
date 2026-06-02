@@ -112,7 +112,7 @@ public class Database {
             sb.append(allCharacters.get(i)); //append all to a string builder so that it will print as a string for client to view
             sb.append('\n'); //new line
         }
-        System.out.println("All available character records from database have been retrieved and sent to client."); //message prints to server
+        System.out.println("All available character records from database have been retrieved and sent to the client who made this request."); //message prints to server
         return sb.toString(); //print all character records for client to view
     }
 
@@ -153,6 +153,7 @@ public class Database {
                     wisdom = rs.getInt("Wisdom");
                     charisma = rs.getInt("Charisma");
 
+                    System.out.println("Character record has been located in database.");
                 }else{
                     System.out.println("There is no record of a character with ID # "+id+".");
                     noRecord = true; //no record present
