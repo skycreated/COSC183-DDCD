@@ -109,7 +109,7 @@ public class Server {
                                     );
 
                             //IF THE CLIENT REQUESTS OPTION B (VIEW EXISTING CHARACTER)
-                                } else if (inputLine.equalsIgnoreCase("B") && !(updateCharacter)){
+                                } else if (inputLine.equalsIgnoreCase("B") && !(updateCharacter) && !viewCharacter) {
                                     viewCharacter = true;
                                     createCharacter = false;
                                     updateCharacter = false;
