@@ -8,35 +8,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-  //MENU VARIABLES
-    boolean createCharacter = false;
-    boolean updateCharacter = false;
-    boolean deleteCharacter = false;
-    boolean viewCharacter = false;
 
-  //FIELD VARIABLES
-    boolean level = false;
-    boolean theClass = false;
-    boolean race = false;
-    boolean name = false;
-    boolean alignment = false;
-    boolean background = false;
-    boolean AC = false;
-    boolean HP = false;
-    boolean speed = false;
-    boolean weight = false;
-    boolean height = false;
-    boolean age = false;
-    boolean strength = false;
-    boolean con = false;
-    boolean dex = false;
-    boolean wis = false;
-    boolean theInt = false;
-    boolean cha = false;
-    int id = 0;
-
-  //OTHER VARIABLES
-    boolean first = false;
     String nl = System.lineSeparator(); //this is to add separate lines because print writer only works with specific syntax for line reads, and we want the output to look *bonita*
 
 
@@ -49,6 +21,36 @@ public class Server {
                 while(true) { //while the server is running (we want this to run forever)
                     var clientSocket = serverSocket.accept(); //allow the server to wait for a client
                     executor.submit(() -> { //this releases a thread from the thread pool that will do the following for the server for that specific client
+
+                        //MENU VARIABLES
+                        boolean createCharacter = false;
+                        boolean updateCharacter = false;
+                        boolean deleteCharacter = false;
+                        boolean viewCharacter = false;
+
+                        //FIELD VARIABLES
+                        boolean level = false;
+                        boolean theClass = false;
+                        boolean race = false;
+                        boolean name = false;
+                        boolean alignment = false;
+                        boolean background = false;
+                        boolean AC = false;
+                        boolean HP = false;
+                        boolean speed = false;
+                        boolean weight = false;
+                        boolean height = false;
+                        boolean age = false;
+                        boolean strength = false;
+                        boolean con = false;
+                        boolean dex = false;
+                        boolean wis = false;
+                        boolean theInt = false;
+                        boolean cha = false;
+                        int id = 0;
+
+                        //OTHER VARIABLES
+                        boolean first = false;
                         System.out.println("Client connected!"); //message confirmation that client has connected is sent to server
                         //task for thread to run starts here
                         var clientIP = clientSocket.getInetAddress().getHostAddress(); //get the client system address, host address, IP address object and converts to String - assigns to client IP
