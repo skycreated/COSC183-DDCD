@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
+int active = 0;
 
 //START THE SERVER
     public void start(final int portNumber){
@@ -20,6 +21,8 @@ public class Server {
                     var clientSocket = serverSocket.accept(); //allow the server to wait for a client
 
                     executor.submit(() -> { //this releases a thread from the thread pool that will do the following for the server for that specific client
+
+                        active++;
 
                         //MENU VARIABLES
                         boolean updateCharacter = false;
@@ -52,7 +55,9 @@ public class Server {
                         String nl = System.lineSeparator(); //this is to add separate lines because print writer only works with specific syntax for line reads, and we want the output to look *bonita*
 
 
-                        System.out.println("Client connected!"); //message confirmation that client has connected is sent to server
+                        System.out.println("A Client connected!"); //message confirmation that client has connected is sent to server
+                        System.out.println("There are currently "+active+" active clients on port "+portNumber+".");
+
                         //task for thread to run starts here
                         var clientIP = clientSocket.getInetAddress().getHostAddress(); //get the client system address, host address, IP address object and converts to String - assigns to client IP
                         var clientPort = clientSocket.getPort(); //get client port - assigned to client port
@@ -161,15 +166,16 @@ public class Server {
                                         if (inputLine.equalsIgnoreCase("all")) { //if they want to view all character records
                                             System.out.println("User " + clientPort + ": Requested to View All Characters.");
                                             writer.println("Retrieving ALL records from database...." + nl + db.getAllData()); //get all records from database and print
+                                            System.out.println("Request to view all characters complete. Records have been sent to user " + clientPort +".");
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options after records displayed so user can continue
                                         } else { //if they chose one record by ID number
                                             if (isInteger(inputLine.trim())) { //checks if the client input is a number or not
-                                                System.out.println("User " + clientPort + ": Requested to View Character " + inputLine.trim());
+                                                System.out.println("User " + clientPort + ": Requested to View Character Record for Character " + inputLine.trim() + ".");
                                                 writer.println(db.viewCharacter(Integer.parseInt(inputLine.trim()))); //if ID is a number, make sure it is integer and retrieve record from database for client to view
-                                                System.out.println("Successfully completed client " + clientPort + " request to view record by ID."); //sends this message to server
+                                                System.out.println("Client " + clientPort + " request to view record by ID finished."); //sends this message to server
                                             } else {
                                                 writer.println("That is not a valid ID number. Server is not able to retrieve any records."); //client sees this response
-                                                System.out.println("Client wants to retrieve record but did not enter valid ID number."); //server sees this response
+                                                System.out.println("Client "+clientPort+" wants to retrieve record but did not enter valid ID number."); //server sees this response
                                             }
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //Menu options for client to see
                                         }
@@ -190,20 +196,23 @@ public class Server {
                                                 if (output.equalsIgnoreCase("there are no records with that ID in the database. sorry.")) { //if there are no records with that ID number
                                                     writer.println(db.viewCharacter(id)); //print the database response to client
                                                     writer.println("Try entering a different ID: "); //ask client to try a different ID
+                                                    System.out.println("No records with ID "+id+" are in the database.");
                                                     first = true; //this is confirmed that we are asking the client for the first prompt again (enter ID to update)
                                                 } else { //if the record is present
                                                     writer.println(db.viewCharacter(id)); //print the record so the client can see
                                                     writer.println("Please enter the FIELD that you would like to update: "); //prompt client to enter a field to change
+                                                    System.out.println("User "+clientPort+" has been prompted to enter the field to update character ID "+id+".");
                                                     first = false; //no longer prompting for the first prompt (we do not want ID anymore as it is assigned now)
                                                 }
                                             } else { //if it is not a number entered when prompted for ID
                                                 writer.println("That is not a valid ID number. It must be an Integer." + nl + "Please Try Again:"); //tell client to try entering ID again
+                                                System.out.println("User "+clientPort+" is requesting to update character but did not enter valid ID number.");
                                                 first = true; //this is confirmed that we are asking the client for the first prompt again (enter ID to update)
                                             }
 
                                             //THEN CHECK IF THEY NEED TO CHANGE LEVEL
                                         } else if (inputLine.equalsIgnoreCase("level") && !level) { //if the client wants to change the level (and level hasn't been prompted yet)
-                                            System.out.println("User " + clientPort + ": Requested to Update Character Level.");
+                                            System.out.println("User " + clientPort + ": Requested to Update Character Level for Character "+id+".");
                                             level = true; //confirmed that they are requesting to change the level
                                             writer.println("What would you like to change the level to?");
                                             writer.println("Please note that the level must be between 1 and 20." + nl + "Enter LEVEL: "); //prompt for level between 1-20
@@ -218,17 +227,20 @@ public class Server {
                                                 }
                                                 if (number >= 1 && number <= 20) { //if the level is between 1 and 20
                                                     writer.println(db.updateLevel(id, number) + nl + db.viewCharacter(id)); //update the level and show the change
+                                                    System.out.println("User " + clientPort + " has successfully updated Level for Character "+id+".");
                                                     writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options
                                                     updateCharacter = false; //character has been updated so no longer active
                                                     level = false; //confirms that we are no longer prompting for the level
                                                 } else { //if the level is not between 1 and 20
                                                     writer.println("The level has to be between 1 and 20.");
                                                     writer.println("Try entering a different level for character " + id + " please:");
+                                                    System.out.println("User "+clientPort+ " did not enter a valid level for character " +id+".");
                                                     level = true; //confirms that we are still prompting for the level
                                                 }
                                             } else { //if the input was NOT a number
                                                 writer.println("That is not a valid Level...");
                                                 writer.println("Please enter a valid Level: ");
+                                                System.out.println("User "+clientPort+" is requesting to update character level for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE THE CLASS
@@ -241,6 +253,7 @@ public class Server {
                                             theClass = false;
                                             updateCharacter = false;
                                             writer.println(db.updateClass(id, inputLine.trim()) + nl + db.viewCharacter(id));
+                                            System.out.println("User " + clientPort + " has successfully updated Class for Character "+id+".");
                                             writer.println("A = Create | B = View | C = Update | D = Delete");
 
                                             //THEN CHECK IF THEY WANT TO CHANGE RACE
@@ -253,6 +266,7 @@ public class Server {
                                             race = false;
                                             updateCharacter = false;
                                             writer.println(db.updateRace(id, inputLine.trim()) + nl + db.viewCharacter(id));
+                                            System.out.println("User " + clientPort + " has successfully updated Race for Character "+id+".");
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
 
                                             //THEN CHECK IF THEY WANT TO CHANGE NAME
@@ -265,6 +279,7 @@ public class Server {
                                             name = false;
                                             updateCharacter = false;
                                             writer.println(db.updateName(id, inputLine.trim()) + nl + db.viewCharacter(id));
+                                            System.out.println("User " + clientPort + " has successfully updated Name for Character "+id+".");
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
 
                                             //THEN CHECK IF THEY WANT TO CHANGE ALIGNMENT
@@ -278,10 +293,12 @@ public class Server {
                                                 alignment = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAlignment(id, inputLine.trim()) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Alignment for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid alignment...");
                                                 writer.println("Try Again. Enter ALIGNMENT for character " + id + ": ");
+                                                System.out.println("User "+clientPort+" is requesting to change alignment for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE BACKGROUND
@@ -295,10 +312,12 @@ public class Server {
                                                 background = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateBackground(id, inputLine.trim()) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Background for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid background...");
                                                 writer.println("Try Again. Enter BACKGROUND for character " + id + ": ");
+                                                System.out.println("User "+clientPort+ " is requesting to change background for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE AC
@@ -318,10 +337,12 @@ public class Server {
                                                 AC = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAC(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated AC for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid AC");
                                                 writer.println("Try Again. Enter AC: ");
+                                                System.out.println("User " + clientPort+ " is requesting to update AC for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE HP
@@ -341,10 +362,12 @@ public class Server {
                                                 HP = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateHP(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated HP for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid HP.");
                                                 writer.println("Try Again. Enter HP: ");
+                                                System.out.println("User "+clientPort+ " is requesting to update HP for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE SPEED
@@ -364,10 +387,12 @@ public class Server {
                                                 HP = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateSpeed(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Speed for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid Speed.");
                                                 writer.println("Try Again. Enter SPEED: ");
+                                                System.out.println("User "+clientPort+" is requesting to update Speed for character "+id+" but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE WEIGHT
@@ -387,10 +412,12 @@ public class Server {
                                                 weight = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateWeight(id, dnumber) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Weight for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid weight.");
                                                 writer.println("Try Again. Enter WEIGHT: ");
+                                                System.out.println("User "+clientPort+" is requesting to update Weight for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE HEIGHT
@@ -410,10 +437,12 @@ public class Server {
                                                 height = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateHeight(id, dnumber) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Height for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid height.");
                                                 writer.println("Try Again. Enter HEIGHT: ");
+                                                System.out.println("User "+clientPort+" is requesting to update height for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE THE AGE
@@ -433,10 +462,12 @@ public class Server {
                                                 age = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAge(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Age for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid age.");
                                                 writer.println("Try Again. Enter AGE: ");
+                                                System.out.println("User "+clientPort+" is requesting to update Age for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE THE STRENGTH
@@ -456,10 +487,12 @@ public class Server {
                                                 strength = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateStrength(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Strength for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid strength.");
                                                 writer.println("Try Again. Enter STRENGTH: ");
+                                                System.out.println("User "+clientPort+" is requesting to update strength for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE CONSTITUTION
@@ -479,10 +512,12 @@ public class Server {
                                                 con = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateConstitution(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Constitution for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid constitution.");
                                                 writer.println("Try Again. Enter CONSTITUTION: ");
+                                                System.out.println("User "+clientPort+" is requesting to update constitution for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE DEXTERITY
@@ -502,10 +537,12 @@ public class Server {
                                                 dex = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateDexterity(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Dexterity for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid dexterity score.");
                                                 writer.println("Try Again. Enter DEXTERITY: ");
+                                                System.out.println("User "+clientPort+" is requesting to update dexterity for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE WISDOM
@@ -525,10 +562,12 @@ public class Server {
                                                 wis = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateWisdom(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Wisdom for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid wisdom score.");
                                                 writer.println("Try Again. Enter WISDOM: ");
+                                                System.out.println("User "+clientPort+" is requesting to update wisdom for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE INTELLIGENCE
@@ -548,10 +587,12 @@ public class Server {
                                                 theInt = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateIntelligence(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Intelligence for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid intelligence score.");
                                                 writer.println("Try Again. Enter INTELLIGENCE: ");
+                                                System.out.println("User "+clientPort+" is requesting to update intelligence for character "+id+"  but did not enter a valid input.");
                                             }
 
                                             //THEN CHECK IF THEY WANT TO CHANGE CHARISMA
@@ -571,14 +612,16 @@ public class Server {
                                                 cha = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateCharisma(id, number) + nl + db.viewCharacter(id));
+                                                System.out.println("User " + clientPort + " has successfully updated Charisma for Character "+id+".");
                                                 writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid charisma score.");
                                                 writer.println("Try Again. Enter CHARISMA: ");
+                                                System.out.println("User "+clientPort+" is requesting to update charisma for character "+id+"  but did not enter a valid input.");
                                             }
                                             //IF NONE OF THE CLIENT REQUEST OPTIONS ARE VALID FIELDS
                                         } else {
-                                            System.out.println("User " + clientPort + ": Requested An Invalid Field. Request Cannot be Executed.");
+                                            System.out.println("User " + clientPort + ": Requested An Invalid Field. Request Cannot be Executed. Request for Update Character has been terminated.");
                                             updateCharacter = false; //no longer checking for update character request
                                             writer.println("The server does not understand the request, or cannot execute that request."); //output sent to client
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options sent to client
@@ -593,10 +636,12 @@ public class Server {
                                         if (isInteger(inputLine.trim())) {
                                             writer.println(db.deleteRecord(Integer.parseInt(inputLine.trim())));
                                             deleteCharacter = false;
+                                            System.out.println("User " + clientPort + "has successfully deleted character "+id+".");
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                         } else {
                                             writer.println("That is not a valid ID number. The server cannot retrieve any records.");
                                             writer.println("Try Again. Enter ID number to DELETE: ");
+                                            System.out.println("User "+clientPort+" is requesting to delete character but did not enter a valid ID.");
                                         }
 
 
@@ -608,6 +653,13 @@ public class Server {
                                     } else {
                                         writer.println("The server does not understand this request."); //message sent to client
                                         writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu sent to client
+                                        if (inputLine.equalsIgnoreCase("EXIT")) {
+                                            System.out.println("Exit request was successful for Client "+clientPort+".");
+                                            active--;
+                                            System.out.println("There are currently "+active+" active clients on port "+portNumber+".");
+                                        }else{
+                                            System.out.println("Server does not understand Client "+clientPort+"'s request.");
+                                        }
                                     }
 
                             } //end of while loop that runs as long as input is NOT empty
