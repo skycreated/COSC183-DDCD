@@ -20,6 +20,7 @@ public class Server {
                     var clientSocket = serverSocket.accept(); //allow the server to wait for a client
 
                     executor.submit(() -> { //this releases a thread from the thread pool that will do the following for the server for that specific client
+
                         //MENU VARIABLES
                         boolean createCharacter = false;
                         boolean updateCharacter = false;
