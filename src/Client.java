@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Client {
@@ -21,10 +20,10 @@ public class Client {
             while(!(message = scanner.nextLine()).isEmpty()){ //while there is user input (message is not empty)
 
                 writer.println(message); //sends user input to server
-                System.out.println("Response from Server: " + input.readLine()); //tells client the returned choice (create, view, update, delete)
+                System.out.println("Response from Server: " + input.readLine()); //tells client the returned choice (create, view, update, delete) or the first response
 
                 do{
-                    System.out.println(input.readLine()); //reads all of the lines that need to be conveyed to client from server based on client choice
+                    System.out.println(input.readLine()); //reads all the lines that need to be conveyed to client from server based on client choice or the second response
                 }while(input.ready());
 
 
