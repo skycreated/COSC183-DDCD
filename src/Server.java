@@ -8,7 +8,8 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-int active = 0;
+    //this keeps track of how many users are active on the server
+        int active = 0;
 
 //START THE SERVER
     public void start(final int portNumber){
