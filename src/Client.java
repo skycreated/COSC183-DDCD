@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 public class Client {
+
 
     //START CLIENT
     public void start(final int portNumber, final Scanner scanner){
@@ -26,12 +28,20 @@ public class Client {
 
             while(!(message = scanner.nextLine()).isEmpty()){ //while there is user input/data present (while it is not empty)
 
-                writer.println(message); //sends user input to server
-                System.out.println("Response from Server: " + input.readLine()); //tells client the returned choice (create, view, update, delete) or the first response
 
-                do{
-                    System.out.println(input.readLine()); //reads all the lines that need to be conveyed to client from server based on client choice or the second response
-                }while(input.ready());
+                if (message.equalsIgnoreCase("EXIT")){
+                    System.exit(0);
+                }else{
+
+                    writer.println(message); //sends user input to server
+                    System.out.println("Response from Server: " + input.readLine()); //tells client the returned choice (create, view, update, delete) or the first response
+
+                    do{
+                        System.out.println(input.readLine()); //reads all the lines that need to be conveyed to client from server based on client choice or the second response
+                    }while(input.ready());
+
+
+                }
 
                 //we have two cases of the input.readline because each section of the server menu has 2 writes
 
