@@ -63,6 +63,7 @@ public class Server {
                                 System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine); //prints received input to server
                                 //TALK TO DATABASE FOR INFO BEFORE SENDING BACK TO CLIENT
 
+
                                 Database db  = new Database(); //database
 
 //-----------------PRIMARY OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,7 +129,7 @@ public class Server {
                                     writer.println("Enter the ID of the character you would like to UPDATE: "); //sends prompt to client
 
                             //IF THE CLIENT REQUESTS OPTION D (DELETE CHARACTER)
-                                } else if (inputLine.equalsIgnoreCase("D") && !(updateCharacter)) {
+                                } else if (inputLine.equalsIgnoreCase("D") && !(updateCharacter) && !deleteCharacter) {
                                     deleteCharacter = true;
                                     createCharacter = false;
                                     viewCharacter = false;
@@ -566,7 +567,7 @@ public class Server {
 
                         //IF THE INPUT IS UNEXPECTED (NOT A,B,C,D OR DIFFERENT FROM THE EXPECTED PROMPT)
                                 } else{
-                                    writer.println("The server does not understand this request"); //message sent to client
+                                    writer.println("The server does not understand this request."); //message sent to client
                                     writer.println("A = Create | B = View | C = Update | D = Delete"); //menu sent to client
                                 }
 

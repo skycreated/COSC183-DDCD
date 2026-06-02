@@ -57,7 +57,7 @@ public class CreateCharacter {
         characterName = firstName+" "+lastName +" "+title;
     }
 
-//CREATE CLASS
+//CREATE CLASS AND CORRESPONDING VALUES ASSOCIATED WITH CLASS
     public void randomClass(){
         String[]classes = {"Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"};
         int[]standardArray = {15,14,13,12,10,8};
