@@ -22,7 +22,6 @@ public class Server {
                     executor.submit(() -> { //this releases a thread from the thread pool that will do the following for the server for that specific client
 
                         //MENU VARIABLES
-                        boolean createCharacter = false;
                         boolean updateCharacter = false;
                         boolean deleteCharacter = false;
                         boolean viewCharacter = false;
@@ -70,6 +69,9 @@ public class Server {
                                 Database db  = new Database(); //database
 
 
+                                if (inputLine.equalsIgnoreCase("EXIT")){
+                                    System.out.println("User "+clientPort+" has left the server.");
+                                }
 
 
 
@@ -80,7 +82,6 @@ public class Server {
                                     if (inputLine.equalsIgnoreCase("A") && !(updateCharacter)  && !(viewCharacter) && !(deleteCharacter)) {
                                         System.out.println("User " + clientPort + ": Requested A (Create Random Character)");
 
-                                        createCharacter = true;
                                         viewCharacter = false;
                                         updateCharacter = false;
                                         deleteCharacter = false;
@@ -92,7 +93,7 @@ public class Server {
                                         writer.println("Option A - CREATE New Random Character." + nl + "Generating Random Character..." + nl
                                                 + cc + nl + "Data Inserted Into Database: "
                                                 + Arrays.toString(cc.characterArray()) + nl
-                                                + "A = Create | B = View | C = Update | D = Delete");
+                                                + "A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                         System.out.println(Arrays.toString(cc.characterArray())); //display the array in server
 
                                         //CALL TO INSERT DATA INTO DATABASE
@@ -117,26 +118,23 @@ public class Server {
                                                 Integer.parseInt(cc.characterArray()[17]),
                                                 Integer.parseInt(cc.characterArray()[18])
                                         );
-                                        createCharacter = false;
 
                                         //IF THE CLIENT REQUESTS OPTION B (VIEW EXISTING CHARACTER)
                                     } else if (inputLine.equalsIgnoreCase("B") && !(updateCharacter) && !(viewCharacter)  && !(deleteCharacter)) {
                                         System.out.println("User " + clientPort + ": Requested B (View Character)");
 
                                         viewCharacter = true;
-                                        createCharacter = false;
                                         updateCharacter = false;
                                         deleteCharacter = false;
                                         writer.println("Option B - VIEW Character."); //confirm client choice
                                         writer.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: "); //sends prompt to client
 
                                         //IF THE CLIENT REQUESTS OPTION C (UPDATE CHARACTER)
-                                    } else if (inputLine.equalsIgnoreCase("C") && !(updateCharacter) && !(viewCharacter) && !(deleteCharacter)) {
+                                    } else if (inputLine.equalsIgnoreCase("C") &&(!updateCharacter) && !(viewCharacter) && !(deleteCharacter)) {
                                         System.out.println("User " + clientPort + ": Requested C (Update Character)");
 
 
                                         updateCharacter = true;
-                                        createCharacter = false;
                                         viewCharacter = false;
                                         deleteCharacter = false;
 
@@ -149,7 +147,6 @@ public class Server {
                                         System.out.println("User " + clientPort + ": Requested D (Delete Character)");
 
                                         deleteCharacter = true;
-                                        createCharacter = false;
                                         viewCharacter = false;
                                         updateCharacter = false;
                                         writer.println("Option D - DELETE Character."); //confirms client choice
@@ -164,7 +161,7 @@ public class Server {
                                         if (inputLine.equalsIgnoreCase("all")) { //if they want to view all character records
                                             System.out.println("User " + clientPort + ": Requested to View All Characters.");
                                             writer.println("Retrieving ALL records from database...." + nl + db.getAllData()); //get all records from database and print
-                                            writer.println("A = Create | B = View | C = Update | D = Delete"); //menu options after records displayed so user can continue
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options after records displayed so user can continue
                                         } else { //if they chose one record by ID number
                                             if (isInteger(inputLine.trim())) { //checks if the client input is a number or not
                                                 System.out.println("User " + clientPort + ": Requested to View Character " + inputLine.trim());
@@ -174,7 +171,7 @@ public class Server {
                                                 writer.println("That is not a valid ID number. Server is not able to retrieve any records."); //client sees this response
                                                 System.out.println("Client wants to retrieve record but did not enter valid ID number."); //server sees this response
                                             }
-                                            writer.println("A = Create | B = View | C = Update | D = Delete"); //Menu options for client to see
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //Menu options for client to see
                                         }
                                         viewCharacter = false; //client is done with VIEW
 
@@ -190,7 +187,7 @@ public class Server {
                                             if (isInteger(inputLine.trim())) { //checks to see if the input is an Integer
                                                 id = Integer.parseInt(inputLine.trim()); //if it is a number, make sure it is loaded as ID number
                                                 String output = db.viewCharacter(id); //checks with the database to see what the outcome is
-                                                if (output.equalsIgnoreCase("there are no records in the database. sorry.")) { //if there are no records with that ID number
+                                                if (output.equalsIgnoreCase("there are no records with that ID in the database. sorry.")) { //if there are no records with that ID number
                                                     writer.println(db.viewCharacter(id)); //print the database response to client
                                                     writer.println("Try entering a different ID: "); //ask client to try a different ID
                                                     first = true; //this is confirmed that we are asking the client for the first prompt again (enter ID to update)
@@ -221,7 +218,7 @@ public class Server {
                                                 }
                                                 if (number >= 1 && number <= 20) { //if the level is between 1 and 20
                                                     writer.println(db.updateLevel(id, number) + nl + db.viewCharacter(id)); //update the level and show the change
-                                                    writer.println("A = Create | B = View | C = Update | D = Delete"); //menu options
+                                                    writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options
                                                     updateCharacter = false; //character has been updated so no longer active
                                                     level = false; //confirms that we are no longer prompting for the level
                                                 } else { //if the level is not between 1 and 20
@@ -256,7 +253,7 @@ public class Server {
                                             race = false;
                                             updateCharacter = false;
                                             writer.println(db.updateRace(id, inputLine.trim()) + nl + db.viewCharacter(id));
-                                            writer.println("A = Create | B = View | C = Update | D = Delete");
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
 
                                             //THEN CHECK IF THEY WANT TO CHANGE NAME
                                         } else if (inputLine.equalsIgnoreCase("name") && !name) {
@@ -268,7 +265,7 @@ public class Server {
                                             name = false;
                                             updateCharacter = false;
                                             writer.println(db.updateName(id, inputLine.trim()) + nl + db.viewCharacter(id));
-                                            writer.println("A = Create | B = View | C = Update | D = Delete");
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
 
                                             //THEN CHECK IF THEY WANT TO CHANGE ALIGNMENT
                                         } else if (inputLine.equalsIgnoreCase("alignment") && !alignment) {
@@ -281,7 +278,7 @@ public class Server {
                                                 alignment = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAlignment(id, inputLine.trim()) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid alignment...");
                                                 writer.println("Try Again. Enter ALIGNMENT for character " + id + ": ");
@@ -298,7 +295,7 @@ public class Server {
                                                 background = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateBackground(id, inputLine.trim()) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid background...");
                                                 writer.println("Try Again. Enter BACKGROUND for character " + id + ": ");
@@ -321,7 +318,7 @@ public class Server {
                                                 AC = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAC(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid AC");
                                                 writer.println("Try Again. Enter AC: ");
@@ -344,7 +341,7 @@ public class Server {
                                                 HP = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateHP(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid HP.");
                                                 writer.println("Try Again. Enter HP: ");
@@ -367,7 +364,7 @@ public class Server {
                                                 HP = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateSpeed(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid Speed.");
                                                 writer.println("Try Again. Enter SPEED: ");
@@ -390,7 +387,7 @@ public class Server {
                                                 weight = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateWeight(id, dnumber) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid weight.");
                                                 writer.println("Try Again. Enter WEIGHT: ");
@@ -413,7 +410,7 @@ public class Server {
                                                 height = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateHeight(id, dnumber) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid height.");
                                                 writer.println("Try Again. Enter HEIGHT: ");
@@ -436,7 +433,7 @@ public class Server {
                                                 age = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateAge(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid age.");
                                                 writer.println("Try Again. Enter AGE: ");
@@ -459,7 +456,7 @@ public class Server {
                                                 strength = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateStrength(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid strength.");
                                                 writer.println("Try Again. Enter STRENGTH: ");
@@ -482,7 +479,7 @@ public class Server {
                                                 con = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateConstitution(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid constitution.");
                                                 writer.println("Try Again. Enter CONSTITUTION: ");
@@ -505,7 +502,7 @@ public class Server {
                                                 dex = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateDexterity(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid dexterity score.");
                                                 writer.println("Try Again. Enter DEXTERITY: ");
@@ -528,7 +525,7 @@ public class Server {
                                                 wis = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateWisdom(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid wisdom score.");
                                                 writer.println("Try Again. Enter WISDOM: ");
@@ -551,7 +548,7 @@ public class Server {
                                                 theInt = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateIntelligence(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid intelligence score.");
                                                 writer.println("Try Again. Enter INTELLIGENCE: ");
@@ -574,7 +571,7 @@ public class Server {
                                                 cha = false;
                                                 updateCharacter = false;
                                                 writer.println(db.updateCharisma(id, number) + nl + db.viewCharacter(id));
-                                                writer.println("A = Create | B = View | C = Update | D = Delete");
+                                                writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                             } else {
                                                 writer.println("That is not a valid charisma score.");
                                                 writer.println("Try Again. Enter CHARISMA: ");
@@ -584,7 +581,7 @@ public class Server {
                                             System.out.println("User " + clientPort + ": Requested An Invalid Field. Request Cannot be Executed.");
                                             updateCharacter = false; //no longer checking for update character request
                                             writer.println("The server does not understand the request, or cannot execute that request."); //output sent to client
-                                            writer.println("A = Create | B = View | C = Update | D = Delete"); //menu options sent to client
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu options sent to client
                                         }
 
 //-----------------END OF UPDATE CHARACTER OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -596,7 +593,7 @@ public class Server {
                                         if (isInteger(inputLine.trim())) {
                                             writer.println(db.deleteRecord(Integer.parseInt(inputLine.trim())));
                                             deleteCharacter = false;
-                                            writer.println("A = Create | B = View | C = Update | D = Delete");
+                                            writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                         } else {
                                             writer.println("That is not a valid ID number. The server cannot retrieve any records.");
                                             writer.println("Try Again. Enter ID number to DELETE: ");
@@ -610,7 +607,7 @@ public class Server {
                                         //IF THE INPUT IS UNEXPECTED (NOT A,B,C,D OR DIFFERENT FROM THE EXPECTED PROMPT)
                                     } else {
                                         writer.println("The server does not understand this request."); //message sent to client
-                                        writer.println("A = Create | B = View | C = Update | D = Delete"); //menu sent to client
+                                        writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program"); //menu sent to client
                                     }
 
                             } //end of while loop that runs as long as input is NOT empty
