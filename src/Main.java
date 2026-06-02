@@ -6,17 +6,16 @@ public class Main {
         final int PORT_NUMBER = 1234;
 
         try (var scanner = new Scanner(System.in)) {
-            System.out.println("Is this a Server? (y/n)");
-            if (scanner.nextLine().equalsIgnoreCase("y")) {
+            System.out.println("Is this a Server? (y/n)"); //Check if the server is running first
+            //then if it is the server:
+            if (scanner.nextLine().equalsIgnoreCase("y")) { //equals ignore case ignores if a capital Y was entered
+                //new instance of the server object and run it
                 new Server().start(PORT_NUMBER);
-            } else {
+            } else { //if it is NOT a server
+                //new instance of the client object and run it
                 new Client().start(PORT_NUMBER, scanner);
             }
         }
-
-
-
-
 
     }
 }

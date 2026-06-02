@@ -4,17 +4,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 public class Server {
 
+  //MENU VARIABLES
     boolean createCharacter = false;
     boolean updateCharacter = false;
     boolean deleteCharacter = false;
     boolean viewCharacter = false;
 
-    boolean first = false;
+  //FIELD VARIABLES
     boolean level = false;
     boolean theClass = false;
     boolean race = false;
@@ -33,43 +33,58 @@ public class Server {
     boolean wis = false;
     boolean theInt = false;
     boolean cha = false;
-
     int id = 0;
 
-    String nl = System.lineSeparator();
+  //OTHER VARIABLES
+    boolean first = false;
+    String nl = System.lineSeparator(); //this is to add separate lines because print writer only works with specific syntax for line reads, and we want the output to look *bonita*
 
+
+//START THE SERVER
     public void start(final int portNumber){
 
         try(var serverSocket = new ServerSocket(portNumber)){
-            System.out.println("Server started. Waiting for clients on port " + portNumber);
+            System.out.println("Server started. Waiting for clients on port " + portNumber); //prints to server
             try(var executor = Executors.newVirtualThreadPerTaskExecutor()){
-                while(true) {
-                    var clientSocket = serverSocket.accept();
-                    executor.submit(() -> {
-                        System.out.println("Client connected!");
-                        var clientIP = clientSocket.getInetAddress().getHostAddress();
-                        var clientPort = clientSocket.getPort();
-                        try (var clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                             var writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
-                            String inputLine;
-                            while ((inputLine = clientInput.readLine()) != null) {
-                                System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine);
-                                //we want the menu options response here
-                                Database db  = new Database();
+                while(true) { //while the server is running (we want this to run forever)
+                    var clientSocket = serverSocket.accept(); //allow the server to wait for a client
+                    executor.submit(() -> { //this releases a thread from the thread pool that will do the following for the server for that specific client
+                        System.out.println("Client connected!"); //message confirmation that client has connected is sent to server
+                        //task for thread to run starts here
+                        var clientIP = clientSocket.getInetAddress().getHostAddress(); //get the client system address, host address, IP address object and converts to String - assigns to client IP
+                        var clientPort = clientSocket.getPort(); //get client port - assigned to client port
+                        try (var clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //collects the data that the client is sending
+                             //accepts input and converts bytes to string (input stream reader)
+                             //buffered reader makes sure that there is synchronization (wrapper)
+                             //more than one resource separated by semicolon
+                             var writer = new PrintWriter(clientSocket.getOutputStream(), true)) { //pushes data back to the client
+                            String inputLine; //message coming from the client is instantiated
+                            while ((inputLine = clientInput.readLine()) != null) { //while the data from the client is NOT null
+                                System.out.println(clientIP + ": " + clientPort + " Received from client..." + inputLine); //prints received input to server
+                                //TALK TO DATABASE FOR INFO BEFORE SENDING BACK TO CLIENT
+
+                                Database db  = new Database(); //database
+
+//-----------------PRIMARY OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                            //IF THE CLIENT REQUESTS OPTION A (CREATE RANDOM CHARACTER)
                                 if (inputLine.equalsIgnoreCase("A") && !(updateCharacter)) {
                                     createCharacter = true;
                                     viewCharacter = false;
                                     updateCharacter = false;
                                     deleteCharacter = false;
 
-                                    //writer.println();
-
                                     CreateCharacter cc = new CreateCharacter(); //create character from character creator
                                     cc.generateCharacter(); //generate the character
 
-                                    writer.println("Option A - CREATE New Random Character."+nl+"Generating Random Character..."+ nl + cc + nl +"Data Inserted Into Database: " + Arrays.toString(cc.characterArray()) + nl + "A = Create | B = View | C = Update | D = Delete"); //display the character Summary
+                                    //confirm client choice & display the character Summary and other content to client:
+                                    writer.println("Option A - CREATE New Random Character."+nl+"Generating Random Character..."+ nl
+                                            + cc + nl +"Data Inserted Into Database: "
+                                            + Arrays.toString(cc.characterArray()) + nl
+                                            + "A = Create | B = View | C = Update | D = Delete");
                                     System.out.println(Arrays.toString(cc.characterArray())); //display the array in server
-                                    //CALL TO INSERT INTO DATABASE
+
+                                    //CALL TO INSERT DATA INTO DATABASE
                                     db.insertCharacters (
                                             Integer.parseInt(cc.characterArray()[0]),
                                             cc.characterArray()[1],
@@ -92,36 +107,40 @@ public class Server {
                                             Integer.parseInt(cc.characterArray()[18])
                                     );
 
+                            //IF THE CLIENT REQUESTS OPTION B (VIEW EXISTING CHARACTER)
                                 } else if (inputLine.equalsIgnoreCase("B") && !(updateCharacter)){
                                     viewCharacter = true;
                                     createCharacter = false;
                                     updateCharacter = false;
                                     deleteCharacter = false;
-                                    writer.println("Option B - VIEW Character.");
+                                    writer.println("Option B - VIEW Character."); //confirm client choice
+                                    writer.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: "); //sends prompt to client
 
-                                    writer.println("Enter the ID of the character you wish to view, or 'all' if you wish to view all character records: ");
-
-
+                            //IF THE CLIENT REQUESTS OPTION C (UPDATE CHARACTER)
                                 } else if (inputLine.equalsIgnoreCase("C") && !updateCharacter) {
                                     updateCharacter = true;
                                     createCharacter = false;
                                     viewCharacter = false;
                                     deleteCharacter = false;
 
-                                    first = true;
-                                    writer.println("Option C - UPDATE Character.");
+                                    first = true; //Confirms if this is the first pass - will need this true/false value to determine what choices the client is making
+                                    writer.println("Option C - UPDATE Character."); //confirms client choice
+                                    writer.println("Enter the ID of the character you would like to UPDATE: "); //sends prompt to client
 
-                                    writer.println("Enter the ID of the character you would like to UPDATE: ");
-
-
+                            //IF THE CLIENT REQUESTS OPTION D (DELETE CHARACTER)
                                 } else if (inputLine.equalsIgnoreCase("D") && !(updateCharacter)) {
                                     deleteCharacter = true;
                                     createCharacter = false;
                                     viewCharacter = false;
                                     updateCharacter = false;
-                                    writer.println("Option D - DELETE Character.");
-                                    writer.println("Enter the ID of the character you would like to DELETE: ");
+                                    writer.println("Option D - DELETE Character."); //confirms client choice
+                                    writer.println("Enter the ID of the character you would like to DELETE: "); //sends prompt to client
 
+//-----------------END OF PRIMARY OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------VIEW OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                            //IF THE CLIENT WANTS TO VIEW A CHARACTER
                                 }else if (viewCharacter) { //if they chose to view character(s)
                                     if (inputLine.equalsIgnoreCase("all")) { //if they want to view all character records
                                         writer.println("Retrieving ALL records from database...." + nl + db.getAllData()); //get all records from database and print
@@ -129,15 +148,20 @@ public class Server {
                                     } else { //if they chose one record by ID number
                                         if (isInteger(inputLine.trim())) { //checks if the client input is a number or not
                                             writer.println(db.viewCharacter(Integer.parseInt(inputLine.trim()))); //if ID is a number, make sure it is integer and retrieve record from database for client to view
-                                            System.out.println("Successfully completed client request to view record by ID.");
+                                            System.out.println("Successfully completed client request to view record by ID."); //sends this message to server
                                         }else{
-                                            writer.println("That is not a valid ID number. Server is not able to retrieve any records.");
-                                            System.out.println("Client wants to retrieve record but did not enter valid ID number.");
+                                            writer.println("That is not a valid ID number. Server is not able to retrieve any records."); //client sees this response
+                                            System.out.println("Client wants to retrieve record but did not enter valid ID number."); //server sees this response
                                         }
-                                        writer.println("A = Create | B = View | C = Update | D = Delete");
+                                        writer.println("A = Create | B = View | C = Update | D = Delete"); //Menu options for client to see
                                     }
-                                    viewCharacter = false;
+                                    viewCharacter = false; //client is done with VIEW
 
+//-----------------END OF VIEW OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------UPDATE CHARACTER OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                            //IF THE CLIENT WANTS TO UPDATE AN EXISTING CHARACTER BY ID
                                 }else if (updateCharacter) { //if they want to update a character
 
                                    //FIRST CHECK IF THEY NEED TO ENTER ID
@@ -220,7 +244,6 @@ public class Server {
                                         writer.println(db.updateName(id, inputLine.trim()) + nl + db.viewCharacter(id));
                                         writer.println("A = Create | B = View | C = Update | D = Delete");
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE ALIGNMENT
                                     }else if (inputLine.equalsIgnoreCase("alignment") && !alignment) {
                                         alignment = true;
@@ -236,8 +259,6 @@ public class Server {
                                             writer.println("That is not a valid alignment...");
                                             writer.println("Try Again. Enter ALIGNMENT for character " + id + ": ");
                                         }
-
-
 
                                    //THEN CHECK IF THEY WANT TO CHANGE BACKGROUND
                                     }else if (inputLine.equalsIgnoreCase("Background") && !background) {
@@ -277,7 +298,6 @@ public class Server {
                                             writer.println("Try Again. Enter AC: ");
                                         }
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE HP
                                     }else if ((inputLine.equalsIgnoreCase("HP") || inputLine.equalsIgnoreCase("Hit Points")) && !HP){
                                         HP = true;
@@ -299,7 +319,6 @@ public class Server {
                                             writer.println("That is not a valid HP.");
                                             writer.println("Try Again. Enter HP: ");
                                         }
-
 
                                    //THEN CHECK IF THEY WANT TO CHANGE SPEED
                                     }else if (inputLine.equalsIgnoreCase("Speed") && !speed){
@@ -323,7 +342,6 @@ public class Server {
                                             writer.println("Try Again. Enter SPEED: ");
                                         }
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE WEIGHT
                                     }else if (inputLine.equalsIgnoreCase("Weight") && !weight){
                                         weight = true;
@@ -345,7 +363,6 @@ public class Server {
                                             writer.println("That is not a valid weight.");
                                             writer.println("Try Again. Enter WEIGHT: ");
                                         }
-
 
                                    //THEN CHECK IF THEY WANT TO CHANGE HEIGHT
                                     }else if (inputLine.equalsIgnoreCase("Height") &&  !height){
@@ -369,7 +386,6 @@ public class Server {
                                             writer.println("Try Again. Enter HEIGHT: ");
                                         }
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE THE AGE
                                     }else if (inputLine.equalsIgnoreCase("Age") && !age){
                                         age = true;
@@ -391,7 +407,6 @@ public class Server {
                                             writer.println("That is not a valid age.");
                                             writer.println("Try Again. Enter AGE: ");
                                         }
-
 
                                    //THEN CHECK IF THEY WANT TO CHANGE THE STRENGTH
                                     }else if ((inputLine.equalsIgnoreCase("Strength") || inputLine.equalsIgnoreCase("STR") ) && !strength){
@@ -415,7 +430,6 @@ public class Server {
                                             writer.println("Try Again. Enter STRENGTH: ");
                                         }
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE CONSTITUTION
                                     }else if ((inputLine.equalsIgnoreCase("Constitution") || inputLine.equalsIgnoreCase("CON")) && !con){
                                         con = true;
@@ -438,8 +452,7 @@ public class Server {
                                             writer.println("Try Again. Enter CONSTITUTION: ");
                                         }
 
-
-                                   //CHECK IF THEY WANT TO CHANGE DEXTERITY
+                                   //THEN CHECK IF THEY WANT TO CHANGE DEXTERITY
                                     }else if ((inputLine.equalsIgnoreCase("Dexterity") || inputLine.equalsIgnoreCase("DEX")) && !dex){
                                         dex = true;
                                         writer.println("What would you like to change the dexterity score to? Please note that character dexterity has to be number.");
@@ -460,7 +473,6 @@ public class Server {
                                             writer.println("That is not a valid dexterity score.");
                                             writer.println("Try Again. Enter DEXTERITY: ");
                                         }
-
 
                                    //THEN CHECK IF THEY WANT TO CHANGE WISDOM
                                     }else if ((inputLine.equalsIgnoreCase("Wisdom") || inputLine.equalsIgnoreCase("WIS")) && !wis){
@@ -484,7 +496,6 @@ public class Server {
                                             writer.println("Try Again. Enter WISDOM: ");
                                         }
 
-
                                    //THEN CHECK IF THEY WANT TO CHANGE INTELLIGENCE
                                     }else if ((inputLine.equalsIgnoreCase("Intelligence") || inputLine.equalsIgnoreCase("INT")) && !theInt){
                                         theInt = true;
@@ -507,7 +518,7 @@ public class Server {
                                             writer.println("Try Again. Enter INTELLIGENCE: ");
                                         }
 
-                                   //CHECK IF THEY WANT TO CHANGE CHARISMA
+                                   //THEN CHECK IF THEY WANT TO CHANGE CHARISMA
                                     }else if (inputLine.equalsIgnoreCase("Charisma") || inputLine.equalsIgnoreCase("CHA")&& !cha){
                                         cha = true;
                                         writer.println("What would you like to change the charisma score to? Please note that character charisma has to be number.");
@@ -528,13 +539,16 @@ public class Server {
                                             writer.println("That is not a valid charisma score.");
                                             writer.println("Try Again. Enter CHARISMA: ");
                                         }
-
+                                    //IF NONE OF THE CLIENT REQUEST OPTIONS ARE VALID FIELDS
                                     }else{
-                                        updateCharacter = false;
-                                        writer.println("The server does not understand the request, or cannot execute that request.");
-                                        writer.println("A = Create | B = View | C = Update | D = Delete");
+                                        updateCharacter = false; //no longer checking for update character request
+                                        writer.println("The server does not understand the request, or cannot execute that request."); //output sent to client
+                                        writer.println("A = Create | B = View | C = Update | D = Delete"); //menu options sent to client
                                     }
 
+//-----------------END OF UPDATE CHARACTER OPTIONS SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------DELETE CHARACTER SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                         //IF THEY CHOSE TO DELETE A CHARACTER
                                 }else if (deleteCharacter) {
@@ -546,11 +560,14 @@ public class Server {
                                     }
                                     writer.println("A = Create | B = View | C = Update | D = Delete");
 
+//-----------------END OF DELETE CHARACTER SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------OTHER SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                         //IF THE INPUT IS UNEXPECTED (NOT A,B,C,D OR DIFFERENT FROM THE EXPECTED PROMPT)
                                 } else{
-                                    writer.println("The server does not understand this request");
-                                    writer.println("A = Create | B = View | C = Update | D = Delete");
+                                    writer.println("The server does not understand this request"); //message sent to client
+                                    writer.println("A = Create | B = View | C = Update | D = Delete"); //menu sent to client
                                 }
 
                             } //end of while loop that runs as long as input is NOT empty
@@ -566,7 +583,9 @@ public class Server {
 
     }
 
-    //METHOD TO CHECK IF STRINGS ARE ABLE TO CONVERT TO INTEGER
+
+//-----------------NUMBER CONFIRMATION SECTION-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //METHOD TO CHECK IF STRINGS ARE ABLE TO CONVERT TO INTEGER VALUE
     public static boolean isInteger(String str){
         try{
             Integer.parseInt(str.trim());
@@ -586,4 +605,4 @@ public class Server {
         }
     }
 
-}
+} //END OF SERVER CLASS
