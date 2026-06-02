@@ -637,7 +637,7 @@ public class Server {
                                         if (isInteger(inputLine.trim())) {
                                             writer.println(db.deleteRecord(Integer.parseInt(inputLine.trim())));
                                             deleteCharacter = false;
-                                            System.out.println("User " + clientPort + "has successfully deleted character "+id+".");
+                                            System.out.println("User " + clientPort + "has successfully deleted the character.");
                                             writer.println("A = Create | B = View | C = Update | D = Delete | EXIT = Exit Program");
                                         } else {
                                             writer.println("That is not a valid ID number. The server cannot retrieve any records.");
