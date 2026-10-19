@@ -1,3 +1,9 @@
+//2026
+//Skylar Magouliotis
+//Spencer Mulder
+//Kyle Yee
+
+
 import java.util.Random;
 
 public class CreateCharacter {

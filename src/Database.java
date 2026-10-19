@@ -1,3 +1,9 @@
+//2026
+//Skylar Magouliotis
+//Spencer Mulder
+//Kyle Yee
+
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -9,7 +15,7 @@ public class Database {
     String url = "jdbc:mysql://localhost:3306/character";
     //normally you would need IP address for the system, but we are using our local system
     String username = "root";
-    String password = "letmeinPLEASE";
+    String password = ""; //enter password here
 
 
     //FIELDS

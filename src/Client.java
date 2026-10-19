@@ -1,3 +1,8 @@
+//2026
+//Skylar Magouliotis
+//Spencer Mulder
+//Kyle Yee
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
